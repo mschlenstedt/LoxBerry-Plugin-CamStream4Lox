@@ -47,6 +47,8 @@ my $log = LoxBerry::Log->new ( 	name => 'buildconfig',
 			append => 1,
 );
 
+print $log->loglevel();
+
 # Commandline options
 my $verbose = '';
 
@@ -80,8 +82,8 @@ if ($error) {
 #
 
 LOGINF "Adding Server section";
-LOGINF "HTTPPort $pcfg->param('FFSERVER.HTTPPORT');";
-print F "HTTPPort $pcfg->param('FFSERVER.HTTPPORT');\n";
+LOGINF "HTTPPort " . $pcfg->param('FFSERVER.HTTPPORT');
+print F "HTTPPort " . $pcfg->param('FFSERVER.HTTPPORT') . "\n";
 
 if (-e "$lbpconfigdir/ffserver_serverdefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_serverdefaults.conf";
@@ -105,6 +107,7 @@ if (-e "$lbpconfigdir/ffserver_serverdefaults.conf") {
 # Feed sections
 #
 
+LOGINF "Adding Feed section(s)";
 @ffserverdefaults = "";
 if (-e "$lbpconfigdir/ffserver_feeddefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_feeddefaults.conf";
@@ -147,6 +150,7 @@ for (my $i=1;$i<=10;$i++) {
 # Stream sections (Video)
 #
 
+LOGINF "Adding Video Stream section(s)";
 @ffserverdefaults = "";
 if (-e "$lbpconfigdir/ffserver_streamdefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_streamdefaults.conf";
@@ -205,6 +209,7 @@ for (my $i=1;$i<=10;$i++) {
 # Stream sections (Image)
 #
 
+LOGINF "Adding Image Stream section(s)";
 @ffserverdefaults = "";
 if (-e "$lbpconfigdir/ffserver_imagedefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_imagedefaults.conf";
@@ -249,6 +254,35 @@ for (my $i=1;$i<=10;$i++) {
 	
 }
 
+#
+# Status section
+#
+
+LOGINF "Adding Status section";
+print F "<Stream status.html>\n";
+LOGINF "Format status";
+print F "Format status\n";
+
+if (-e "$lbpconfigdir/ffserver_statusdefaults.conf") {
+	LOGINF "Found additional default options in $lbpconfigdir/ffserver_statusdefaults.conf";
+
+	open(F1,"<$lbpconfigdir/ffserver_statusdefaults.conf") or $error = 1;
+	if ($error) {
+		LOGWARN "Cannot read $lbpconfigdir/ffserver_statusdefaults.conf. Skipping";
+		$error = 0;
+	} else {
+		@ffserverdefaults = <F1>;
+		foreach (@ffserverdefaults){
+			s/[\n\r]//g;
+			LOGINF "$_";
+			print F "$_\n";
+		}
+	}
+	close (F1);
+}
+print F "</Stream>\n";
+
 # Exit
+close (F);
 LOGEND "Exit.";
 exit;
