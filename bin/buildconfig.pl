@@ -20,6 +20,10 @@
 use strict;
 use warnings;
 
+# Global vars
+my $error;
+my @ffserverdefaults;
+
 ##########################################################################
 # Modules
 ##########################################################################
@@ -36,7 +40,6 @@ use Getopt::Long;
 my $version = "0.0.1";
 
 my $pcfg     = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
-my $httpport     = $pcfg->param("FFSERVER.HTTPPORT");
 
 # Create a logging object
 my $log = LoxBerry::Log->new ( 	name => 'buildconfig',
@@ -60,10 +63,8 @@ LOGSTART "CamStream4Lox Build Config process started";
 LOGDEB "This is $0 Version $version";
 
 if (-e "$lbpconfigdir/ffserver.conf") {
-
 	LOGINF "Backing up existing FFServer Configuration $lbpconfigdir/ffserver.conf";
 	system ("cp $lbpconfigdir/ffserver.conf $lbpconfigdir/ffserver.conf.bkp");
-
 }
 
 LOGINF "Building $lbpconfigdir/ffserver.conf";
@@ -74,8 +75,13 @@ if ($error) {
 	exit 2;
 }
 
-LOGINF "HTTPPort $httpport";
-print F "HTTPPort $httpport\n";
+#
+# Server section
+#
+
+LOGINF "Adding Server section";
+LOGINF "HTTPPort $pcfg->param('FFSERVER.HTTPPORT');";
+print F "HTTPPort $pcfg->param('FFSERVER.HTTPPORT');\n";
 
 if (-e "$lbpconfigdir/ffserver_serverdefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_serverdefaults.conf";
@@ -85,13 +91,162 @@ if (-e "$lbpconfigdir/ffserver_serverdefaults.conf") {
 		LOGWARN "Cannot read $lbpconfigdir/ffserver_serverdefaults.conf. Skipping";
 		$error = 0;
 	} else {
-		my @ffserverdefaults = <F1>;
+		@ffserverdefaults = <F1>;
 		foreach (@ffserverdefaults){
 			s/[\n\r]//g;
 			LOGINF "$_";
 			print F "$_\n";
 		}
 	}
+	close (F1);
+}
+
+#
+# Feed sections
+#
+
+@ffserverdefaults = "";
+if (-e "$lbpconfigdir/ffserver_feeddefaults.conf") {
+	LOGINF "Found additional default options in $lbpconfigdir/ffserver_feeddefaults.conf";
+	open(F1,"<$lbpconfigdir/ffserver_feeddefaults.conf") or $error = 1;
+	if ($error) {
+		LOGWARN "Cannot read $lbpconfigdir/ffserver_feeddefaults.conf. Skipping";
+	$error = 0;
+	} else {
+		@ffserverdefaults = <F1>;
+	}
+	close (F1);
+}
+
+for (my $i=1;$i<=10;$i++) {
+	if ($pcfg->param("CAM$i.ACTIVE")) {
+		LOGINF "Adding Feed for Cam $i";
+		print F "<Feed cam$i.ffm>\n";
+		LOGINF "File " . $pcfg->param("FFSERVER.PATH") . "/cam$i.ffm";
+		print F "File " . $pcfg->param("FFSERVER.PATH") . "/cam$i.ffm\n";
+		LOGINF "Launch ffmpeg -i \"" . $pcfg->param("CAM$i.URL") . "\"";
+		print F "Launch ffmpeg -i \"" . $pcfg->param("CAM$i.URL") . "\"\n";
+		foreach (split(/,/,$pcfg->param("CAM$i.EXTRAS_FEED"))){
+			if ($_) {
+				LOGINF $_;
+		                print F $_ . "\n";
+			}
+		}
+		if (@ffserverdefaults) {
+			foreach (@ffserverdefaults){
+				s/[\n\r]//g;
+				LOGINF "$_";
+				print F "$_\n";
+			}
+		}
+		print F "</Feed>\n";
+	}
+}
+
+#
+# Stream sections (Video)
+#
+
+@ffserverdefaults = "";
+if (-e "$lbpconfigdir/ffserver_streamdefaults.conf") {
+	LOGINF "Found additional default options in $lbpconfigdir/ffserver_streamdefaults.conf";
+	open(F1,"<$lbpconfigdir/ffserver_streamdefaults.conf") or $error = 1;
+	if ($error) {
+		LOGWARN "Cannot read $lbpconfigdir/ffserver_streamdefaults.conf. Skipping";
+	$error = 0;
+	} else {
+		@ffserverdefaults = <F1>;
+	}
+	close (F1);
+}
+
+for (my $i=1;$i<=10;$i++) {
+	if ($pcfg->param("CAM$i.ACTIVE")) {
+		LOGINF "Adding Video Stream for Cam $i";
+		print F "<Stream cam$i.mjpg>\n";
+		print F "Feed cam$i.ffm\n";
+		LOGINF "VideoBitRate " . $pcfg->param("CAM$i.VIDEOBITRATE");
+		print F "VideoBitRate " . $pcfg->param("CAM$i.VIDEOBITRATE") . "\n";
+		LOGINF "VideoFrameRate " . $pcfg->param("CAM$i.VIDEOFRAMERATE");
+		print F "VideoFrameRate " . $pcfg->param("CAM$i.VIDEOFRAMERATE") . "\n";
+		LOGINF "VideoSize " . $pcfg->param("CAM$i.VIDEOSIZE");
+		print F "VideoSize " . $pcfg->param("CAM$i.VIDEOSIZE") . "\n";
+		LOGINF "VideoGopSize " . $pcfg->param("CAM$i.VIDEOGOPSIZE");
+		print F "VideoGopSize " . $pcfg->param("CAM$i.VIDEOGOPSIZE") . "\n";
+		LOGINF "VideoQMin " . $pcfg->param("CAM$i.VIDEOQMIN");
+		print F "VideoQMin " . $pcfg->param("CAM$i.VIDEOQMIN") . "\n";
+		LOGINF "VideoQMax " . $pcfg->param("CAM$i.VIDEOQMAX");
+		print F "VideoQMax " . $pcfg->param("CAM$i.VIDEOQMAX") . "\n";
+		LOGINF "Metadata title \"Cam$i\"";
+		print F "Metadata title \"Cam$i\"\n";
+		foreach (split(/,/,$pcfg->param("CAM$i.EXTRAS_STREAM"))){
+			if ($_) {
+				LOGINF $_;
+		                print F $_ . "\n";
+			}
+		}
+		if (@ffserverdefaults) {
+			foreach (@ffserverdefaults){
+				if ($_) {
+					s/[\n\r]//g;
+					LOGINF "$_";
+					print F "$_\n";
+				}
+			}
+		}
+		print F "</Stream>\n";
+	} else {
+		LOGINF "Cam $i not active. Skipping.";
+	}
+	
+}
+
+#
+# Stream sections (Image)
+#
+
+@ffserverdefaults = "";
+if (-e "$lbpconfigdir/ffserver_imagedefaults.conf") {
+	LOGINF "Found additional default options in $lbpconfigdir/ffserver_imagedefaults.conf";
+	open(F1,"<$lbpconfigdir/ffserver_imagedefaults.conf") or $error = 1;
+	if ($error) {
+		LOGWARN "Cannot read $lbpconfigdir/ffserver_imagedefaults.conf. Skipping";
+	$error = 0;
+	} else {
+		@ffserverdefaults = <F1>;
+	}
+	close (F1);
+}
+
+for (my $i=1;$i<=10;$i++) {
+	if ($pcfg->param("CAM$i.ACTIVE") && $pcfg->param("CAM$i.IMAGE")) {
+		LOGINF "Adding still Image for Cam $i";
+		print F "<Stream cam$i.jpg>\n";
+		print F "Feed cam$i.ffm\n";
+		LOGINF "VideoSize " . $pcfg->param("CAM$i.IMAGESIZE");
+		print F "VideoSize " . $pcfg->param("CAM$i.IMAGESIZE") . "\n";
+		LOGINF "Metadata title \"Cam$i\"";
+		print F "Metadata title \"Cam$i\"\n";
+		foreach (split(/,/,$pcfg->param("CAM$i.EXTRAS_IMAGE"))){
+			if ($_) {
+				LOGINF $_;
+		                print F $_ . "\n";
+			}
+		}
+		if (@ffserverdefaults) {
+			foreach (@ffserverdefaults){
+				if ($_) {
+					s/[\n\r]//g;
+					LOGINF "$_";
+					print F "$_\n";
+				}
+			}
+		}
+		print F "</Stream>\n";
+	} else {
+		LOGINF "Cam $i not active or image not active. Skipping.";
+	}
+	
 }
 
 # Exit
