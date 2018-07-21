@@ -13,10 +13,10 @@ PACKAGE=${PLUGINNAME}
 NAME=ffserver
 FILENAME=${LBPLOG}/${PLUGINNAME}/ffserver.log
 APPEND=1
+ADDTIME=1
 
 case "$1" in
   start)
-	LOGSTART "${PLUGINNAME} Starting FFServer."
 	if [ $LOGLEVEL -eq 0 ]; then
 		FFSERVERLOGLEVEL=0
 	elif [ $LOGLEVEL -eq 1 ]; then
@@ -34,9 +34,9 @@ case "$1" in
 	elif [ $LOGLEVEL -eq 7 ]; then
 		FFSERVERLOGLEVEL=48
 	fi
+	LOGSTART "${PLUGINNAME} Starting FFServer. Loglevel ${LOGLEVEL}, which is ${FFSERVERLOGLEVEL} for FFServer."
 	# Start FFServer
-	echo Using iLoglevel ${LOGLEVEL}, which is ${FFSERVERLOGLEVEL} for FFServer
-	FFREPORT=file=${FILENAME}:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}ffserver.conf
+	FFREPORT=file=${FILENAME}:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf
         exit 0
         ;;
   stop)
