@@ -40,13 +40,13 @@ case "$1" in
 	LOGEND "";
 	echo "Starting FFServer with Config ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf"
 	killall ffserver > /dev/null 2>&1
-	FFREPORT=file=${FILENAME}:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > /dev/null 2>&1  &
+	FFREPORT=file=${FILENAME}:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf 2>&1 &
         exit 0
         ;;
   stop)
 	LOGEND "";
 	echo "Stopping FFServer"
-	killall ffserver > /dev/null 2>&1
+	killall ffserver > ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf 2>&1
         exit 0
         ;;
   *)

@@ -47,15 +47,12 @@ my $log = LoxBerry::Log->new ( 	name => 'buildconfig',
 			append => 1,
 );
 
-print $log->loglevel();
-
 # Commandline options
 my $verbose = '';
 
 GetOptions ('verbose' => \$verbose,
             'quiet'   => sub { $verbose = 0 });
 
-# Due to a bug in the Logging routine, set the loglevel fix to 3
 if ($verbose) {
 	$log->stdout(1);
 	$log->loglevel(7);
