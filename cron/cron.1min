@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
-# buildconfig.pl
-# Creates the configfile for ffserver
+# watchdog
+# Restarts ffserver if a feed isn't reachable
 #
 # Copyright 2018 Michael Schlenstedt, michael@loxberry.de
 #
@@ -34,13 +34,25 @@ use LoxBerry::Log;
 use LWP::Simple; 
 
 ##########################################################################
-# Read Settings / Logging
+# Read Settings
 ##########################################################################
 
 # Version of this script
 my $version = "0.0.1";
 
 my $pcfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
+
+##########################################################################
+# Check if we should run at all
+##########################################################################
+
+if (!$pcfg->param("FFSERVER.START")) {
+	exit (0);
+}
+
+##########################################################################
+# Read Settings
+##########################################################################
 
 # Create a logging object
 my $log = LoxBerry::Log->new ( 	name => 'watchdog',
@@ -99,3 +111,5 @@ if ($restart) {
 	sleep (10);
 	system ("$lbpbindir/ffserver.sh start");
 }
+
+exit 0;
