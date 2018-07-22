@@ -31,7 +31,7 @@ my $verbose = 0;
 
 use LoxBerry::System;
 use LoxBerry::Log;
-use LWP::Simple; 
+use LWP::Simple qw ($ua head get);  
 
 ##########################################################################
 # Read Settings
@@ -72,7 +72,18 @@ if ($verbose || $log->loglevel() eq "7") {
 ##########################################################################
 
 my $port = $pcfg->param("FFSERVER.HTTPPORT");
+$ua->timeout(10);
 my $status = "http://localhost:$port/status.html";
+
+# Check if status webpage is reachable
+if (!head($status)){
+	LOGWARN "Status webpage of FFServer isn't reachable. (Re-)Start FFServer.";
+	system ("$lbpbindir/ffserver.sh stop");
+	sleep (5);
+	system ("$lbpbindir/ffserver.sh start");
+	sleep (5);
+}
+
 my $website_content = get($status);
 
 $restart = 0;
@@ -108,7 +119,7 @@ for (my $i=1;$i<=10;$i++) {
 if ($restart) {
 	LOGINF "Restarting FFServer";
 	system ("$lbpbindir/ffserver.sh stop");
-	sleep (10);
+	sleep (5);
 	system ("$lbpbindir/ffserver.sh start");
 }
 
