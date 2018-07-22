@@ -14,7 +14,7 @@ fi
  
 iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "FFSERVER"
 
-if [ $FFSERVERSTART -eq 1 ]; then
+if [ $START -eq 1 ]; then
 	echo "DAEMON: Starting FFServer" >> $LBPLOG/$PLUGINNAME/ffserver.log
 	if [ -x /usr/bin/logger ]; then
 		/usr/bin/logger "loxberry-plugin-$PLUGINNAME - Starting FFServer"
