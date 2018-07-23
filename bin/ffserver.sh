@@ -26,21 +26,21 @@ case "$1" in
 	elif [ $LOGLEVEL -eq 2 ]; then
 		FFSERVERLOGLEVEL=8
 	elif [ $LOGLEVEL -eq 3 ]; then
-		FFSERVERLOGLEVEL=16
+		FFSERVERLOGLEVEL=8
 	elif [ $LOGLEVEL -eq 4 ]; then
-		FFSERVERLOGLEVEL=24
+		FFSERVERLOGLEVEL=16
 	elif [ $LOGLEVEL -eq 5 ]; then
-		FFSERVERLOGLEVEL=24 # Do not use more than 24
+		FFSERVERLOGLEVEL=24
 	elif [ $LOGLEVEL -eq 6 ]; then
-		FFSERVERLOGLEVEL=24 # Do not use more than 24
+		FFSERVERLOGLEVEL=32
 	elif [ $LOGLEVEL -eq 7 ]; then
-		FFSERVERLOGLEVEL=24 # Do not use more than 24
+		FFSERVERLOGLEVEL=32
 	fi
 	# Start FFServer
 	LOGEND "";
 	echo "Starting FFServer with Config ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf"
 	killall ffserver > /dev/null 2>&1
-	FFREPORT=file=${FILENAME}:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > ${LBPLOG}/${PLUGINNAME}/ffserver.log 2>&1 &
+	FFREPORT=file=${LBPLOG}/${PLUGINNAME}/ffserver.log:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > ${LBPLOG}/${PLUGINNAME}/ffserver.log 2>&1 &
         exit 0
         ;;
   stop)
