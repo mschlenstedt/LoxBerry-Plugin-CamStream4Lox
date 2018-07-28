@@ -74,6 +74,16 @@ if ($error) {
 	exit 2;
 }
 
+LOGINF "Checking if Path is writable";
+
+my $path = $pcfg->param("FFSERVER.PATH");
+open(F,">$path/writetest") or $error = 1;
+if ($error) {
+	LOGCRIT "Cannot open $path for writing. Falling back to plugin's data-folder.";
+	$path = "$lbpdatadir/tmp";
+}
+unlink ("$path/writetest");
+
 #
 # Server section
 #
@@ -122,8 +132,8 @@ for (my $i=1;$i<=10;$i++) {
 	if ($pcfg->param("CAM$i.ACTIVE")) {
 		LOGINF "Adding Feed for Cam $i";
 		print F "<Feed cam$i.ffm>\n";
-		LOGINF "File " . $pcfg->param("FFSERVER.PATH") . "/cam$i.ffm";
-		print F "File " . $pcfg->param("FFSERVER.PATH") . "/cam$i.ffm\n";
+		LOGINF "File " . $path . "/cam$i.ffm";
+		print F "File " . $path . "/cam$i.ffm\n";
 		LOGINF "Launch ffmpeg -i \"" . $pcfg->param("CAM$i.URL") . "\"";
 		print F "Launch ffmpeg -i \"" . $pcfg->param("CAM$i.URL") . "\"\n";
 		foreach (split(/,/,$pcfg->param("CAM$i.EXTRAS_FEED"))){

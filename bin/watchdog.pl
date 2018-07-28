@@ -81,6 +81,7 @@ if (!$website_content){
 	LOGWARN "Status webpage of FFServer isn't reachable. (Re-)Start FFServer.";
 	system ("$lbpbindir/ffserver.sh stop");
 	sleep (5);
+	system ("$lbpbindir/buildconfig.pl");
 	system ("$lbpbindir/ffserver.sh start");
 	sleep (5);
 }
@@ -119,6 +120,7 @@ if ($restart) {
 	LOGINF "Restarting FFServer";
 	system ("$lbpbindir/ffserver.sh stop");
 	sleep (5);
+	system ("$lbpbindir/buildconfig.pl");
 	system ("$lbpbindir/ffserver.sh start");
 }
 

@@ -17,6 +17,12 @@ ADDTIME=1
 
 LOGSTART "${PLUGINNAME} Starting FFServer"
 
+# Check if we should start FFServer at boottime
+# Source the iniparser
+. $LBHOMEDIR/libs/bashlib/iniparser.sh
+
+iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "FFSERVER"
+
 case "$1" in
   start)
 	if [ $LOGLEVEL -eq 0 ]; then
@@ -36,17 +42,29 @@ case "$1" in
 	elif [ $LOGLEVEL -eq 7 ]; then
 		FFSERVERLOGLEVEL=32
 	fi
+
 	# Start FFServer
 	LOGEND "";
 	echo "Starting FFServer with Config ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf"
+	# Clean
 	killall ffserver > /dev/null 2>&1
-	FFREPORT=file=${LBPLOG}/${PLUGINNAME}/ffserver.log:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > ${LBPLOG}/${PLUGINNAME}/ffserver.log 2>&1 &
+	killall ffmpeg > /dev/null 2>&1
+	rm $PATH/cam*.ffm > /dev/null 2>&1
+	# Start as loxberry
+	if [ $UID -eq 0 ]; then
+		su loxberry -c "FFREPORT=file=${LBPLOG}/${PLUGINNAME}/ffserver.log:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > ${LBPLOG}/${PLUGINNAME}/ffserver.log 2>&1 &"
+	else
+		FFREPORT=file=${LBPLOG}/${PLUGINNAME}/ffserver.log:level=${FFSERVERLOGLEVEL} ffserver -f ${LBPCONFIG}/${PLUGINNAME}/ffserver.conf > ${LBPLOG}/${PLUGINNAME}/ffserver.log 2>&1 &
+	fi
         exit 0
         ;;
   stop)
 	LOGEND "";
 	echo "Stopping FFServer"
-	killall ffserver > ${LBPLOG}/${PLUGINNAME}/ffserver.log 2>&1
+	# Clean
+	killall ffserver > /dev/null 2>&1
+	killall ffmpeg > /dev/null 2>&1
+	rm $PATH/cam*.ffm > /dev/null 2>&1
         exit 0
         ;;
   *)
