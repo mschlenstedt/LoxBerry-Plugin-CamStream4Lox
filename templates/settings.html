@@ -48,6 +48,35 @@
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_STARTFFSERVER></font>
 				</td>
 			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelhttpport"><TMPL_VAR SETTINGS.LABEL_HTTPPORT></label>
+				</td>
+				<td width="50%">
+					<input type="text" name="httpport" id="httpport" value="<TMPL_VAR HTTPPORT>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_HTTPPORT>"
+          data-validation-rule="special:number-max-value:65535">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelstartffserver"><TMPL_VAR SETTINGS.LABEL_PATH></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR PATH>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PATH></font>
+				</td>
+			</tr>
 		</table>
 
 		<br><br>
@@ -198,7 +227,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam1extrasfeed" id="cam1extrasfeed" value="<TMPL_VAR CAM1.EXTRAS_STREAM>">
+								<input name="cam1extrasstream" id="cam1extrasstream" value="<TMPL_VAR CAM1.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -241,7 +270,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam1extrasfeed" id="cam1extrasfeed" value="<TMPL_VAR CAM1.EXTRAS_IMAGE>">
+								<input name="cam1extrasimage" id="cam1extrasimage" value="<TMPL_VAR CAM1.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -399,7 +428,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam2extrasfeed" id="cam2extrasfeed" value="<TMPL_VAR CAM2.EXTRAS_STREAM>">
+								<input name="cam2extrasstream" id="cam2extrasstream" value="<TMPL_VAR CAM2.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -442,7 +471,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam2extrasfeed" id="cam2extrasfeed" value="<TMPL_VAR CAM2.EXTRAS_IMAGE>">
+								<input name="cam2extrasimage" id="cam2extrasimage" value="<TMPL_VAR CAM2.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -600,7 +629,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam3extrasfeed" id="cam3extrasfeed" value="<TMPL_VAR CAM3.EXTRAS_STREAM>">
+								<input name="cam3extrasstream" id="cam3extrasstream" value="<TMPL_VAR CAM3.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -643,7 +672,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam3extrasfeed" id="cam3extrasfeed" value="<TMPL_VAR CAM3.EXTRAS_IMAGE>">
+								<input name="cam3extrasimage" id="cam3extrasimage" value="<TMPL_VAR CAM3.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -801,7 +830,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam4extrasfeed" id="cam4extrasfeed" value="<TMPL_VAR CAM4.EXTRAS_STREAM>">
+								<input name="cam4extrasstream" id="cam4extrasstream" value="<TMPL_VAR CAM4.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -844,7 +873,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam4extrasfeed" id="cam4extrasfeed" value="<TMPL_VAR CAM4.EXTRAS_IMAGE>">
+								<input name="cam4extrasimage" id="cam4extrasimage" value="<TMPL_VAR CAM4.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1002,7 +1031,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam5extrasfeed" id="cam5extrasfeed" value="<TMPL_VAR CAM5.EXTRAS_STREAM>">
+								<input name="cam5extrasstream" id="cam5extrasstream" value="<TMPL_VAR CAM5.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1045,7 +1074,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam5extrasfeed" id="cam5extrasfeed" value="<TMPL_VAR CAM5.EXTRAS_IMAGE>">
+								<input name="cam5extrasimage" id="cam5extrasimage" value="<TMPL_VAR CAM5.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1203,7 +1232,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam6extrasfeed" id="cam6extrasfeed" value="<TMPL_VAR CAM6.EXTRAS_STREAM>">
+								<input name="cam6extrasstream" id="cam6extrasstream" value="<TMPL_VAR CAM6.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1246,7 +1275,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam6extrasfeed" id="cam6extrasfeed" value="<TMPL_VAR CAM6.EXTRAS_IMAGE>">
+								<input name="cam6extrasimage" id="cam6extrasimage" value="<TMPL_VAR CAM6.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1404,7 +1433,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam7extrasfeed" id="cam7extrasfeed" value="<TMPL_VAR CAM7.EXTRAS_STREAM>">
+								<input name="cam7extrasstream" id="cam7extrasstream" value="<TMPL_VAR CAM7.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1447,7 +1476,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam7extrasfeed" id="cam7extrasfeed" value="<TMPL_VAR CAM7.EXTRAS_IMAGE>">
+								<input name="cam7extrasimage" id="cam7extrasimage" value="<TMPL_VAR CAM7.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1605,7 +1634,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam8extrasfeed" id="cam8extrasfeed" value="<TMPL_VAR CAM8.EXTRAS_STREAM>">
+								<input name="cam8extrasstream" id="cam8extrasstream" value="<TMPL_VAR CAM8.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1648,7 +1677,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam8extrasfeed" id="cam8extrasfeed" value="<TMPL_VAR CAM8.EXTRAS_IMAGE>">
+								<input name="cam8extrasimage" id="cam8extrasimage" value="<TMPL_VAR CAM8.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1806,7 +1835,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam9extrasfeed" id="cam9extrasfeed" value="<TMPL_VAR CAM9.EXTRAS_STREAM>">
+								<input name="cam9extrasstream" id="cam9extrasstream" value="<TMPL_VAR CAM9.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -1849,7 +1878,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam9extrasfeed" id="cam9extrasfeed" value="<TMPL_VAR CAM9.EXTRAS_IMAGE>">
+								<input name="cam9extrasimage" id="cam9extrasimage" value="<TMPL_VAR CAM9.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -2007,7 +2036,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
 				</td>
 				<td width="50%">
-								<input name="cam10extrasfeed" id="cam10extrasfeed" value="<TMPL_VAR CAM10.EXTRAS_STREAM>">
+								<input name="cam10extrasstream" id="cam10extrasstream" value="<TMPL_VAR CAM10.EXTRAS_STREAM>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -2050,7 +2079,7 @@
 					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_EXTRASIMAGE></label>
 				</td>
 				<td width="50%">
-								<input name="cam10extrasfeed" id="cam10extrasfeed" value="<TMPL_VAR CAM10.EXTRAS_IMAGE>">
+								<input name="cam10extrasimage" id="cam10extrasimage" value="<TMPL_VAR CAM10.EXTRAS_IMAGE>">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;

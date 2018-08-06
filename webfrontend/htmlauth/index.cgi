@@ -52,7 +52,7 @@ my $maintemplate = HTML::Template->new(
                 loop_context_vars => 1,
                 die_on_bad_params=> 0,
                 associate => $cfg,
-                debug => 1,
+                debug => 0,
                 );
 
 my %L = LoxBerry::System::readlanguage($maintemplate, "language.ini");
@@ -77,6 +77,106 @@ if ( $cgi->param('do') ) {
 		system ("sudo $lbpbindir/lms_wrapper.sh disable > /dev/null 2>&1");
 	}
 }
+
+# Save Form
+if ($R::saveformdata) {
+	
+	# Write configuration file(s)
+	if ( $R::startffserver ) {
+		$cfg->param("FFSERVER.START", "1");
+	else {
+		$cfg->param("FFSERVER.START", "0");
+	}
+	if ( $R::httpport ) {
+		$cfg->param("FFSERVER.HTTPPORT", "$R::httpport");
+	} else {
+		$cfg->param("FFSERVER.HTTPPORT", "8090");
+	}
+	if ( $R::path ) {
+		$cfg->param("FFSERVER.PATH", "$R::path");
+	} else {
+		$cfg->param("FFSERVER.PATH", "$lbpdatadir/tmp");
+	}
+
+	for (my $i=1;$i<=10;$i++) {
+		if ( ${"R::cam$i" . "active"} ) {
+			$cfg->param("CAM$i.ACTIVE", "1");
+		} else {
+			$cfg->param("CAM$i.ACTIVE", "0");
+		}
+		if ( ${"R::cam$i" . "url"} ) {
+			$cfg->param("CAM$i.URL", "${"R::cam$i" . "url"}");
+		} else {
+			$cfg->param("CAM$i.URL", "");
+		}
+		if ( ${"R::cam$i" . "videobitrate"} ) {
+			$cfg->param("CAM$i.VIDEOBITRATE", "${"R::cam$i" . "videobitrate"}");
+		} else {
+			$cfg->param("CAM$i.VIDEOBITRATE", "4048");
+		}
+		if ( ${"R::cam$i" . "videoframerate"} ) {
+			$cfg->param("CAM$i.VIDEOFRAMERATE", "${"R::cam$i" . "videoframerate"}");
+		} else {
+			$cfg->param("CAM$i.VIDEOFRAMERATE", "10");
+		}
+		if ( ${"R::cam$i" . "videosize"} ) {
+			$cfg->param("CAM$i.VIDEOSIZE", "${"R::cam$i" . "videosize"}");
+		} else {
+			$cfg->param("CAM$i.VIDEOSIZE", "640x480");
+		}
+		if ( ${"R::cam$i" . "videogopsize"} ) {
+			$cfg->param("CAM$i.VIDEOGOPSIZE", "${"R::cam$i" . "videogopsize"}");
+		} else {
+			$cfg->param("CAM$i.VIDEOGOPSIZE", "5");
+		}
+		if ( ${"R::cam$i" . "videoqmin"} ) {
+			$cfg->param("CAM$i.VIDEOYMIN", "${"R::cam$i" . "videoqmin"}");
+		} else {
+			$cfg->param("CAM$i.VIDEOQMIN", "5");
+		}
+		if ( ${"R::cam$i" . "videoqmax"} ) {
+			$cfg->param("CAM$i.VIDEOYMAX", "${"R::cam$i" . "videoqmax"}");
+		} else {
+			$cfg->param("CAM$i.VIDEOQMAX", "51");
+		}
+		if ( ${"R::cam$i" . "extrasfeed"} ) {
+			$cfg->param("CAM$i.EXTRAS_FEED", "${"R::cam$i" . "extrasfeed"}");
+		} else {
+			$cfg->param("CAM$i.EXTRAS_FEED", "");
+		}
+		if ( ${"R::cam$i" . "extrasstream"} ) {
+			$cfg->param("CAM$i.EXTRAS_STREAM", "${"R::cam$i" . "extrasstream"}");
+		} else {
+			$cfg->param("CAM$i.EXTRAS_STREAM", "");
+		}
+		if ( ${"R::cam$i" . "picactive"} ) {
+			$cfg->param("CAM$i.PICACTIVE", "1");
+		} else {
+			$cfg->param("CAM$i.PICACTIVE", "0");
+		}
+		if ( ${"R::cam$i" . "imagesize"} ) {
+			$cfg->param("CAM$i.IMAGESIZE", "${"R::cam$i" . "imagesize"}");
+		} else {
+			$cfg->param("CAM$i.IMAGESIZE", "640x480");
+		}
+		if ( ${"R::cam$i" . "extrasimage"} ) {
+			$cfg->param("CAM$i.EXTRAS_IMAGE", "${"R::cam$i" . "extrasimage"}");
+		} else {
+			$cfg->param("CAM$i.EXTRAS_IMAGE", "");
+		}
+	}
+	
+	# Save all
+	$cfg->save();
+	
+	# Template output
+	&save;
+
+	exit;
+
+}
+
+
 
 # Process PIDs
 my $pidofffserver=`pidof ffserver`;
@@ -113,6 +213,15 @@ my $form = $cgi->popup_menu(
 	-default => $cfg->param('FFSERVER.START'),
 );
 $maintemplate->param( STARTFFSERVER => $form );
+
+# Path
+$form = LoxBerry::Storage::get_storage_html(
+	formid => 'path',
+	custom_folder => 1,
+	currentpath => $cfg->param("FFSERVER.PATH"),
+	readwriteonly => 1,
+	data_mini => 1);
+$maintemplate->param( PATH => $form );
 
 # Cams active, Image active, URLs
 for (my $i=1;$i<=10;$i++) {
