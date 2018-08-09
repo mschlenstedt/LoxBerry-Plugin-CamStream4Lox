@@ -1,3 +1,4 @@
+<TMPL_IF FORM>
 <center>
 <table border=0 cellpadding=5 cellspacing=0>
 	<tr>
@@ -53,14 +54,14 @@
 					<label id="labelhttpport"><TMPL_VAR SETTINGS.LABEL_HTTPPORT></label>
 				</td>
 				<td width="50%">
-					<input type="text" name="httpport" id="httpport" value="<TMPL_VAR HTTPPORT>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_HTTPPORT>"
+					<input type="text" name="httpport" id="httpport" value="<TMPL_VAR FFSERVER.HTTPPORT>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_HTTPPORT>"
           data-validation-rule="special:number-max-value:65535">
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
-					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_HTTPPORT></font>
 				</td>
 			</tr>
 			<tr>
@@ -2163,3 +2164,26 @@ $( document ).ready(function()
 	validate_enable('#cam10imagesize');
 });
 </script>
+</TMPL_IF>
+
+<TMPL_IF SAVE>
+<center>
+	<table border=0>
+	<tr>
+		<td align="center">
+		<h2><TMPL_VAR SETTINGS.HINT_OK></h2>
+		<p>
+		<TMPL_VAR SETTINGS.OK_SETTINGS_SAVED>
+		</p>
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+		<p>
+		<a id="btnok" data-role="button" data-inline="true" data-mini="true" data-icon="check" href="./index.cgi"><TMPL_VAR SETTINGS.BUTTON_OK></a>
+		</p>
+		</td>
+	</tr>
+	</table>
+</center>
+</TMPL_IF>

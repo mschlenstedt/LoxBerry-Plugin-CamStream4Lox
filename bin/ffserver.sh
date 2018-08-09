@@ -1,7 +1,6 @@
 #!/bin/bash
 
-PLUGINNAME=REPLACELBPPLUGINDIR
-
+PLUGINNAME=camstream4lox
 PATH="/sbin:/bin:/usr/sbin:/usr/bin:$LBHOMEDIR/bin:$LBHOMEDIR/sbin"
 
 ENVIRONMENT=$(cat /etc/environment)
@@ -13,15 +12,15 @@ PACKAGE=${PLUGINNAME}
 NAME=ffserver
 FILENAME=${LBPLOG}/${PLUGINNAME}/ffserver.log
 APPEND=1
-ADDTIME=1
 
 LOGSTART "${PLUGINNAME} Starting FFServer"
 
 # Check if we should start FFServer at boottime
 # Source the iniparser
 . $LBHOMEDIR/libs/bashlib/iniparser.sh
-
 iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "FFSERVER"
+
+PATH="/sbin:/bin:/usr/sbin:/usr/bin:$LBHOMEDIR/bin:$LBHOMEDIR/sbin"
 
 case "$1" in
   start)

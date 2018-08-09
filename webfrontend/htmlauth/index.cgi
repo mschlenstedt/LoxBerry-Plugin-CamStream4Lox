@@ -19,12 +19,13 @@
 # Modules
 ##########################################################################
 
+use Config::Simple '-strict';
 use LoxBerry::System;
+use LoxBerry::Storage;
 use LoxBerry::Web;
 use CGI;
-#use Config::Simple;
-use warnings;
-use strict;
+#use warnings;
+#use strict;
 
 ##########################################################################
 # Variables
@@ -35,7 +36,7 @@ use strict;
 ##########################################################################
 
 # Version of this script
-my $version = "0.0.1";
+my $version = LoxBerry::System::pluginversion();
 
 my $cfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
@@ -45,6 +46,7 @@ my $cfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
 # Get CGI
 our $cgi = CGI->new;
+$cgi->import_names('R');
 
 my $maintemplate = HTML::Template->new(
                 filename => "$lbptemplatedir/settings.html",
@@ -62,19 +64,15 @@ my $do;
 if ( $cgi->param('do') ) { 
 	$do = $cgi->param('do'); 
 	if ( $do eq "start") {
-		system ("sudo $lbpbindir/lms_wrapper.sh start > /dev/null 2>&1");
+		system ("$lbpbindir/ffserver.sh start > /dev/null 2>&1");
+		sleep (2); # Give ffmpeg time to come up...
 	}
 	if ( $do eq "stop") {
-		system ("sudo $lbpbindir/lms_wrapper.sh stop > /dev/null 2>&1");
+		system ("$lbpbindir/ffserver.sh stop > /dev/null 2>&1");
+		sleep (2); # Give ffmpeg time to go down...
 	}
 	if ( $do eq "restart") {
-		system ("sudo $lbpbindir/lms_wrapper.sh restart > /dev/null 2>&1");
-	}
-	if ( $do eq "enable") {
-		system ("sudo $lbpbindir/lms_wrapper.sh enable > /dev/null 2>&1");
-	}
-	if ( $do eq "disable") {
-		system ("sudo $lbpbindir/lms_wrapper.sh disable > /dev/null 2>&1");
+		system ("$lbpbindir/ffserver.sh restart > /dev/null 2>&1");
 	}
 }
 
@@ -84,7 +82,7 @@ if ($R::saveformdata) {
 	# Write configuration file(s)
 	if ( $R::startffserver ) {
 		$cfg->param("FFSERVER.START", "1");
-	else {
+	} else {
 		$cfg->param("FFSERVER.START", "0");
 	}
 	if ( $R::httpport ) {
@@ -105,47 +103,47 @@ if ($R::saveformdata) {
 			$cfg->param("CAM$i.ACTIVE", "0");
 		}
 		if ( ${"R::cam$i" . "url"} ) {
-			$cfg->param("CAM$i.URL", "${"R::cam$i" . "url"}");
+			$cfg->param("CAM$i.URL", ${"R::cam$i" . "url"});
 		} else {
 			$cfg->param("CAM$i.URL", "");
 		}
 		if ( ${"R::cam$i" . "videobitrate"} ) {
-			$cfg->param("CAM$i.VIDEOBITRATE", "${"R::cam$i" . "videobitrate"}");
+			$cfg->param("CAM$i.VIDEOBITRATE", ${"R::cam$i" . "videobitrate"});
 		} else {
 			$cfg->param("CAM$i.VIDEOBITRATE", "4048");
 		}
 		if ( ${"R::cam$i" . "videoframerate"} ) {
-			$cfg->param("CAM$i.VIDEOFRAMERATE", "${"R::cam$i" . "videoframerate"}");
+			$cfg->param("CAM$i.VIDEOFRAMERATE", ${"R::cam$i" . "videoframerate"});
 		} else {
 			$cfg->param("CAM$i.VIDEOFRAMERATE", "10");
 		}
 		if ( ${"R::cam$i" . "videosize"} ) {
-			$cfg->param("CAM$i.VIDEOSIZE", "${"R::cam$i" . "videosize"}");
+			$cfg->param("CAM$i.VIDEOSIZE", ${"R::cam$i" . "videosize"});
 		} else {
 			$cfg->param("CAM$i.VIDEOSIZE", "640x480");
 		}
 		if ( ${"R::cam$i" . "videogopsize"} ) {
-			$cfg->param("CAM$i.VIDEOGOPSIZE", "${"R::cam$i" . "videogopsize"}");
+			$cfg->param("CAM$i.VIDEOGOPSIZE", ${"R::cam$i" . "videogopsize"});
 		} else {
 			$cfg->param("CAM$i.VIDEOGOPSIZE", "5");
 		}
 		if ( ${"R::cam$i" . "videoqmin"} ) {
-			$cfg->param("CAM$i.VIDEOYMIN", "${"R::cam$i" . "videoqmin"}");
+			$cfg->param("CAM$i.VIDEOYMIN", ${"R::cam$i" . "videoqmin"});
 		} else {
 			$cfg->param("CAM$i.VIDEOQMIN", "5");
 		}
 		if ( ${"R::cam$i" . "videoqmax"} ) {
-			$cfg->param("CAM$i.VIDEOYMAX", "${"R::cam$i" . "videoqmax"}");
+			$cfg->param("CAM$i.VIDEOYMAX", ${"R::cam$i" . "videoqmax"});
 		} else {
 			$cfg->param("CAM$i.VIDEOQMAX", "51");
 		}
 		if ( ${"R::cam$i" . "extrasfeed"} ) {
-			$cfg->param("CAM$i.EXTRAS_FEED", "${"R::cam$i" . "extrasfeed"}");
+			$cfg->param("CAM$i.EXTRAS_FEED", ${"R::cam$i" . "extrasfeed"});
 		} else {
 			$cfg->param("CAM$i.EXTRAS_FEED", "");
 		}
 		if ( ${"R::cam$i" . "extrasstream"} ) {
-			$cfg->param("CAM$i.EXTRAS_STREAM", "${"R::cam$i" . "extrasstream"}");
+			$cfg->param("CAM$i.EXTRAS_STREAM", ${"R::cam$i" . "extrasstream"});
 		} else {
 			$cfg->param("CAM$i.EXTRAS_STREAM", "");
 		}
@@ -155,12 +153,12 @@ if ($R::saveformdata) {
 			$cfg->param("CAM$i.PICACTIVE", "0");
 		}
 		if ( ${"R::cam$i" . "imagesize"} ) {
-			$cfg->param("CAM$i.IMAGESIZE", "${"R::cam$i" . "imagesize"}");
+			$cfg->param("CAM$i.IMAGESIZE", ${"R::cam$i" . "imagesize"});
 		} else {
 			$cfg->param("CAM$i.IMAGESIZE", "640x480");
 		}
 		if ( ${"R::cam$i" . "extrasimage"} ) {
-			$cfg->param("CAM$i.EXTRAS_IMAGE", "${"R::cam$i" . "extrasimage"}");
+			$cfg->param("CAM$i.EXTRAS_IMAGE", ${"R::cam$i" . "extrasimage"});
 		} else {
 			$cfg->param("CAM$i.EXTRAS_IMAGE", "");
 		}
@@ -168,6 +166,8 @@ if ($R::saveformdata) {
 	
 	# Save all
 	$cfg->save();
+
+	system ("$lbpbindir/buildconfig.pl > /dev/null 2>&1");
 	
 	# Template output
 	&save;
@@ -177,6 +177,8 @@ if ($R::saveformdata) {
 }
 
 
+# Standard form
+$maintemplate->param( FORM => 1 );
 
 # Process PIDs
 my $pidofffserver=`pidof ffserver`;
@@ -192,7 +194,7 @@ if (!$pidofffmpeg) {
 $maintemplate->param( PIDOFFFMPEG => $pidofffmpeg);
 
 # Status page
-my $statusurl = "http://" . $ENV{HTTP_HOST} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/status.html";
+my $statusurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/status.html";
 $maintemplate->param( STATUSURL => $statusurl);
 
 # Logfiles
@@ -246,19 +248,32 @@ for (my $i=1;$i<=10;$i++) {
 		-id => "cam" . $i . "picactive",
 		-values	=> \@values,
 		-labels	=> \%labels,
-		-default => $cfg->param( "CAM$i" . ".IMAGE"),
+		-default => $cfg->param( "CAM$i" . ".PICACTIVE"),
 	);
 	$maintemplate->param( "CAM$i" . "PICACTIVE" => $form );
-	my $videourl = "http://" . $ENV{HTTP_HOST} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".mjpg";
-	my $pictureurl = "http://" . $ENV{HTTP_HOST} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".jpg";
+	my $videourl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".mjpg";
+	my $pictureurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".jpg";
 	$maintemplate->param( "CAM$i" . "VIDEOURL" => $videourl );
 	$maintemplate->param( "CAM$i" . "PICTUREURL" => $pictureurl );
 }
 
 # Print Template
-LoxBerry::Web::lbheader("CamStream4Lox", "http://www.loxwiki.eu:80");
+LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "http://www.loxwiki.eu/display/LOXBERRY/Wunderground4Loxone", "help.html");
 print $maintemplate->output;
 LoxBerry::Web::lbfooter();
 
 exit;
 
+#####################################################
+# Sub Save
+#####################################################
+
+sub save
+{
+	$maintemplate->param( "SAVE", 1);
+	LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "http://www.loxwiki.eu/display/LOXBERRY/Wunderground4Loxone", "help.html");
+	print $maintemplate->output();
+	LoxBerry::Web::lbfooter();
+
+	exit;
+}

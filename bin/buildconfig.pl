@@ -77,11 +77,12 @@ if ($error) {
 LOGINF "Checking if Path is writable";
 
 my $path = $pcfg->param("FFSERVER.PATH");
-open(F,">$path/writetest") or $error = 1;
+open(F1,">$path/writetest") or $error = 1;
 if ($error) {
 	LOGCRIT "Cannot open $path for writing. Falling back to plugin's data-folder.";
 	$path = "$lbpdatadir/tmp";
 }
+close(F1);
 unlink ("$path/writetest");
 
 #
@@ -231,14 +232,14 @@ if (-e "$lbpconfigdir/ffserver_imagedefaults.conf") {
 }
 
 for (my $i=1;$i<=10;$i++) {
-	if ($pcfg->param("CAM$i.ACTIVE") && $pcfg->param("CAM$i.IMAGE")) {
+	if ($pcfg->param("CAM$i.ACTIVE") && $pcfg->param("CAM$i.PICACTIVE")) {
 		LOGINF "Adding still Image for Cam $i";
 		print F "<Stream cam$i.jpg>\n";
 		print F "Feed cam$i.ffm\n";
 		LOGINF "VideoSize " . $pcfg->param("CAM$i.IMAGESIZE");
 		print F "VideoSize " . $pcfg->param("CAM$i.IMAGESIZE") . "\n";
-		LOGINF "Metadata title \"Cam$i\"";
-		print F "Metadata title \"Cam$i\"\n";
+		LOGINF "Metadata title \"Cam$i Picture\"";
+		print F "Metadata title \"Cam$i Picture\"\n";
 		foreach (split(/,/,$pcfg->param("CAM$i.EXTRAS_IMAGE"))){
 			if ($_) {
 				LOGINF $_;
