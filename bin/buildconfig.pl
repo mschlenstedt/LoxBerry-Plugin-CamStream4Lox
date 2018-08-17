@@ -37,7 +37,7 @@ use Getopt::Long;
 ##########################################################################
 
 # Version of this script
-my $version = "0.0.1";
+my $version = "0.0.2";
 
 my $pcfg     = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
@@ -137,6 +137,9 @@ for (my $i=1;$i<=10;$i++) {
 		print F "File " . $path . "/cam$i.ffm\n";
 		LOGINF "Launch ffmpeg -i \"" . $pcfg->param("CAM$i.URL") . "\"";
 		print F "Launch ffmpeg -i \"" . $pcfg->param("CAM$i.URL") . "\"\n";
+		LOGINF "FileMaxSize " . $pcfg->param('FFSERVER.BUFFERSIZE') . "M";
+		print F "FileMaxSize " . $pcfg->param('FFSERVER.BUFFERSIZE') . "M\n";
+
 		foreach (split(/,/,$pcfg->param("CAM$i.EXTRAS_FEED"))){
 			if ($_) {
 				LOGINF $_;

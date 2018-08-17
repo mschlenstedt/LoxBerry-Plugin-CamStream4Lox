@@ -78,6 +78,20 @@
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_PATH></font>
 				</td>
 			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelbuffersize"><TMPL_VAR SETTINGS.LABEL_BUFFERSIZE></label>
+				</td>
+				<td width="50%">
+								<input type="range" name="buffersize" id="buffersize" value="<TMPL_VAR FFSERVER.BUFFERSIZE>" min="50" max="1000" step="50">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_BUFFERSIZE></font>
+				</td>
+			</tr>
 		</table>
 
 		<br><br>
