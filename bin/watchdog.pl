@@ -38,7 +38,7 @@ use LWP::Simple;
 ##########################################################################
 
 # Version of this script
-my $version = "0.0.1";
+my $version = "0.0.2";
 
 my $pcfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
@@ -47,6 +47,10 @@ my $pcfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 ##########################################################################
 
 if (!$pcfg->param("FFSERVER.START")) {
+	exit (0);
+}
+
+if (-e "$lbplogdir/manualstopped") {
 	exit (0);
 }
 

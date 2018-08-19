@@ -6,13 +6,13 @@
 		<a id="button" data-icon="check" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?do=start"><TMPL_VAR SETTINGS.BUTTON_START></a>
 	</td>
 	<td>
-		<a id="button" data-icon="delete" data-role="button" data-inline="true" data-mini="truee" href="./index.cgi?do=stop"><TMPL_VAR SETTINGS.BUTTON_STOP></a>
+		<a id="button" data-icon="delete" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?do=stop"><TMPL_VAR SETTINGS.BUTTON_STOP></a>
 	</td>
 	<td>
-		<a id="button" data-icon="refresh" data-role="button" data-inline="true" data-mini="truee" href="./index.cgi?do=restart"><TMPL_VAR SETTINGS.BUTTON_RESTART></a>
+		<a id="button" data-icon="refresh" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?do=restart"><TMPL_VAR SETTINGS.BUTTON_RESTART></a>
 	</td>
 	<td>
-		<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR STATUSURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_STATUS></a>
+		<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR STATUSURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_STATUS></a>
 	</td>
 	<td>
 		<TMPL_VAR LOGFILEBUTTON>
@@ -103,8 +103,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM1VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM1PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM1VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM1PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -121,6 +121,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM1VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM1PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -304,8 +330,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM2VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM2PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM2VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM2PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -322,6 +348,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM2VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM2PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -505,8 +557,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM3VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM3PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM3VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM3PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -523,6 +575,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM3VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM3PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -706,8 +784,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM4VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM4PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM4VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM4PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -724,6 +802,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM4VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM4PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -907,8 +1011,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM5VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM5PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM5VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM5PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -925,6 +1029,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM5VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM5PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -1108,8 +1238,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM6VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM6PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM6VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM6PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -1126,6 +1256,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM6VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM6PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -1309,8 +1465,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM7VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM7PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM7VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM7PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -1327,6 +1483,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM7VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM7PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -1510,8 +1692,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM8VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM8PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM8VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM8PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -1528,6 +1710,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM8VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM8PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -1711,8 +1919,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM9VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM9PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM9VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM9PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -1729,6 +1937,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM9VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM9PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>
@@ -1912,8 +2146,8 @@
 				<td colspan=4">
 					<table border=0>
 						<tr>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM10VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
-							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="truee" href="<TMPL_VAR CAM10PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM10VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM10PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
@@ -1930,6 +2164,32 @@
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM10VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM10PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
 				</td>
 			</tr>
 			<tr>

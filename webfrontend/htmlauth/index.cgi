@@ -64,15 +64,19 @@ my $do;
 if ( $cgi->param('do') ) { 
 	$do = $cgi->param('do'); 
 	if ( $do eq "start") {
+		system ("rm $lbplogdir/manualstoppped");
 		system ("$lbpbindir/ffserver.sh start > /dev/null 2>&1");
-		sleep (2); # Give ffmpeg time to come up...
+		sleep (3); # Give ffmpeg time to come up...
 	}
 	if ( $do eq "stop") {
 		system ("$lbpbindir/ffserver.sh stop > /dev/null 2>&1");
-		sleep (2); # Give ffmpeg time to go down...
+		system ("touch $lbplogdir/manualstoppped");
+		sleep (3); # Give ffmpeg time to go down...
 	}
 	if ( $do eq "restart") {
-		system ("$lbpbindir/ffserver.sh restart > /dev/null 2>&1");
+		system ("$lbpbindir/ffserver.sh stop > /dev/null 2>&1");
+		system ("$lbpbindir/ffserver.sh start > /dev/null 2>&1");
+		sleep (3); # Give ffmpeg time to go down...
 	}
 }
 
