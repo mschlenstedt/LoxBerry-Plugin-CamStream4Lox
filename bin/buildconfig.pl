@@ -37,7 +37,7 @@ use Getopt::Long;
 ##########################################################################
 
 # Version of this script
-my $version = "0.0.2";
+my $version = "0.0.3";
 
 my $pcfg     = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
@@ -77,12 +77,14 @@ if ($error) {
 LOGINF "Checking if Path is writable";
 
 my $path = $pcfg->param("FFSERVER.PATH");
+system ("mkdir -p $path");
 open(F1,">$path/writetest") or $error = 1;
 if ($error) {
 	LOGCRIT "Cannot open $path for writing. Falling back to plugin's data-folder.";
 	$path = "$lbpdatadir/tmp";
 }
 close(F1);
+system ("mkdir -p $path");
 unlink ("$path/writetest");
 
 #
