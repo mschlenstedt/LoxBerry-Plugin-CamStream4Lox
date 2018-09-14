@@ -99,6 +99,11 @@ if ($R::saveformdata) {
 	} else {
 		$cfg->param("FFSERVER.PATH", "$lbpdatadir/tmp");
 	}
+	if ( $R::buffersize ) {
+		$cfg->param("FFSERVER.BUFFERSIZE", "$R::buffersize");
+	} else {
+		$cfg->param("FFSERVER.BUFFERSIZE", "200");
+	}
 
 	for (my $i=1;$i<=10;$i++) {
 		if ( ${"R::cam$i" . "active"} ) {
