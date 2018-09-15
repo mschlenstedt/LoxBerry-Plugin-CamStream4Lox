@@ -267,7 +267,7 @@ for (my $i=1;$i<=10;$i++) {
 }
 
 # Print Template
-LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "http://www.loxwiki.eu/display/LOXBERRY/Wunderground4Loxone", "help.html");
+LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "https://www.loxwiki.eu/display/LOXBERRY/CamStream4Lox", "");
 print $maintemplate->output;
 LoxBerry::Web::lbfooter();
 
@@ -280,7 +280,7 @@ exit;
 sub save
 {
 	$maintemplate->param( "SAVE", 1);
-	LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "http://www.loxwiki.eu/display/LOXBERRY/Wunderground4Loxone", "help.html");
+	LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "https://www.loxwiki.eu/display/LOXBERRY/CamStream4Lox", "");
 	print $maintemplate->output();
 	LoxBerry::Web::lbfooter();
 
