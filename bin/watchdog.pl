@@ -60,13 +60,15 @@ if (-e "$lbplogdir/manualstopped") {
 
 # Create a logging object
 my $log = LoxBerry::Log->new ( 	name => 'watchdog',
+			package => '$lbplogdir',
 			filename => "$lbplogdir/watchdog.log",
 			append => 1,
 );
 
-LOGSTART "Watchdog for FFServer";
-
+my $logstarted;
 if ($verbose || $log->loglevel() eq "7") {
+	LOGSTART "Watchdog for FFServer in debug mode.";
+	$logstarted = 1;
 	$log->stdout(1);
 	$log->loglevel(7);
 }
@@ -82,6 +84,12 @@ my $website_content = get($status);
 
 # Check if status webpage is reachable
 if (!$website_content){
+	if (!$logstarted) {
+		LOGSTART "Watchdog for FFServer found a problem:";
+		$logstarted = 1;
+	} else {
+		LOGWARN "Watchdog for FFServer found a problem:";
+	}
 	LOGWARN "Status webpage of FFServer isn't reachable. (Re-)Start FFServer.";
 	system ("$lbpbindir/ffserver.sh stop");
 	sleep (5);
@@ -126,6 +134,10 @@ if ($restart) {
 	sleep (5);
 	system ("$lbpbindir/buildconfig.pl");
 	system ("$lbpbindir/ffserver.sh start");
+}
+
+if ($logstarted) {
+	LOGEND "Finished.";
 }
 
 exit 0;
