@@ -19,7 +19,7 @@ cp -p -v -r $ARGV5/config/plugins/$ARGV3/ /tmp/$ARGV1\_upgrade/config
 # If we upgrade to 0.2.0, do not back up ffserver_feeddefaults.conf
 if [ "$ARGV4" = "0.2.0" ]; then
 	echo "<INFO> ffserver_feeddefaults.conf has to be replaced. Do not back it up."
-	rm /tmp/$ARGV1\_upgrade/config/ffserver_feeddefaults.conf
+	rm /tmp/$ARGV1\_upgrade/config/$ARGV3/ffserver_feeddefaults.conf
 fi
 
 echo "<INFO> Backing up existing log files"
