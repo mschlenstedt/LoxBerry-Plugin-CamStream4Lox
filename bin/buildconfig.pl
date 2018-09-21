@@ -71,7 +71,7 @@ if (-e "$lbpconfigdir/ffserver.conf") {
 LOGINF "Building $lbpconfigdir/ffserver.conf";
 open(F,">$lbpconfigdir/ffserver.conf") or $error = 1;
 if ($error) {
-	if (!$logstated) {
+	if (!$logstarted) {
 		LOGSTART "CamStream4Lox Build Config process found a problem";
 		$logstarted = 1;
 	}
@@ -86,7 +86,7 @@ my $path = $pcfg->param("FFSERVER.PATH");
 system ("mkdir -p $path");
 open(F1,">$path/writetest") or $error = 1;
 if ($error) {
-	if (!$logstated) {
+	if (!$logstarted) {
 		LOGSTART "CamStream4Lox Build Config process found a problem";
 		$logstarted = 1;
 	}
@@ -110,7 +110,7 @@ if (-e "$lbpconfigdir/ffserver_serverdefaults.conf") {
 
 	open(F1,"<$lbpconfigdir/ffserver_serverdefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstated) {
+		if (!$logstarted) {
 			LOGSTART "CamStream4Lox Build Config process found a problem";
 			$logstarted = 1;
 		}
@@ -137,7 +137,7 @@ if (-e "$lbpconfigdir/ffserver_feeddefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_feeddefaults.conf";
 	open(F1,"<$lbpconfigdir/ffserver_feeddefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstated) {
+		if (!$logstarted) {
 			LOGSTART "CamStream4Lox Build Config process found a problem";
 			$logstarted = 1;
 		}
@@ -187,7 +187,7 @@ if (-e "$lbpconfigdir/ffserver_streamdefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_streamdefaults.conf";
 	open(F1,"<$lbpconfigdir/ffserver_streamdefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstated) {
+		if (!$logstarted) {
 			LOGSTART "CamStream4Lox Build Config process found a problem";
 			$logstarted = 1;
 		}
@@ -250,7 +250,7 @@ if (-e "$lbpconfigdir/ffserver_imagedefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_imagedefaults.conf";
 	open(F1,"<$lbpconfigdir/ffserver_imagedefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstated) {
+		if (!$logstarted) {
 			LOGSTART "CamStream4Lox Build Config process found a problem";
 			$logstarted = 1;
 		}
@@ -307,7 +307,7 @@ if (-e "$lbpconfigdir/ffserver_statusdefaults.conf") {
 
 	open(F1,"<$lbpconfigdir/ffserver_statusdefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstated) {
+		if (!$logstarted) {
 			LOGSTART "CamStream4Lox Build Config process found a problem";
 			$logstarted = 1;
 		}
