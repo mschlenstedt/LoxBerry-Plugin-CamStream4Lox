@@ -17,13 +17,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-use strict;
-use warnings;
+use Getopt::Long;
+#use strict;
+#use warnings;
 
 # Global vars
 my $streamok;
 my $restart;
-my $verbose = 0;
 
 ##########################################################################
 # Modules
@@ -38,9 +38,14 @@ use LWP::Simple;
 ##########################################################################
 
 # Version of this script
-my $version = "0.0.2";
+my $version = "0.0.3";
 
 my $pcfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
+
+# Commandline options
+my $verbose = '';
+GetOptions ('verbose' => \$verbose,
+            'quiet'   => sub { $verbose = 0 });
 
 ##########################################################################
 # Check if we should run at all
@@ -60,18 +65,21 @@ if (-e "$lbplogdir/manualstopped") {
 
 # Create a logging object
 my $log = LoxBerry::Log->new ( 	name => 'watchdog',
-			package => '$lbplogdir',
-			filename => "$lbplogdir/watchdog.log",
-			append => 1,
+			package => 'camstream4lox',
+			name => 'watchdog',
+			logdir => "$lbplogdir",
+			#filename => "$lbplogdir/watchdog.log",
+			#append => 1,
 );
 
-my $logstarted;
-if ($verbose || $log->loglevel() eq "7") {
-	LOGSTART "Watchdog for FFServer in debug mode.";
-	$logstarted = 1;
+if ($verbose) {
 	$log->stdout(1);
 	$log->loglevel(7);
 }
+
+LOGSTART "Watchdog for FFServer started.";
+
+LOGDEB "This is $0 Version $version";
 
 ##########################################################################
 # Main program
@@ -84,19 +92,20 @@ my $website_content = get($status);
 
 # Check if status webpage is reachable
 if (!$website_content){
-	if (!$logstarted) {
-		LOGSTART "Watchdog for FFServer found a problem:";
-		$logstarted = 1;
-	} else {
-		LOGWARN "Watchdog for FFServer found a problem:";
-	}
-	LOGWARN "Status webpage of FFServer isn't reachable. (Re-)Start FFServer.";
+	LOGWARN "Watchdog for FFServer found a problem: Status webpage of FFServer isn't reachable. (Re-)Start FFServer.";
 	system ("$lbpbindir/ffserver.sh stop");
 	sleep (5);
 	system ("$lbpbindir/buildconfig.pl");
-	system ("$lbpbindir/ffserver.sh start");
 	sleep (5);
+	system ("$lbpbindir/ffserver.sh start");
+	qx{pidof ffserver};
+	if ($? eq "0") {
+		LOGOK "FFServer started successfully."
+	} else {
+		LOGERR "FFServer could not be started."
+	}
 }
+
 
 $restart = 0;
 for (my $i=1;$i<=10;$i++) {
@@ -132,12 +141,20 @@ if ($restart) {
 	LOGINF "Restarting FFServer";
 	system ("$lbpbindir/ffserver.sh stop");
 	sleep (5);
-	system ("$lbpbindir/buildconfig.pl");
+	if ($verbose) {
+		system ("$lbpbindir/buildconfig.pl -v");
+	} else {
+		system ("$lbpbindir/buildconfig.pl");
+	}
+	sleep (5);
 	system ("$lbpbindir/ffserver.sh start");
+	qx{pidof ffserver};
+	if ($? eq "0") {
+		LOGOK "FFServer started successfully."
+	} else {
+		LOGERR "FFServer could not be started."
+	}
 }
 
-if ($logstarted) {
-	LOGEND "Finished.";
-}
-
+LOGEND;
 exit 0;

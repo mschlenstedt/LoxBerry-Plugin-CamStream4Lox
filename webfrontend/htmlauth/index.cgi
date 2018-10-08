@@ -59,29 +59,146 @@ my $maintemplate = HTML::Template->new(
 
 my %L = LoxBerry::System::readlanguage($maintemplate, "language.ini");
 
+#
 # Actions to perform
+# 
 my $do;
-if ( $cgi->param('do') ) { 
+
+# Form 1: FFServer
+if ( $cgi->param('do') && ( $cgi->param('form') eq "1" || !$cgi->param('form') ) ) { 
 	$do = $cgi->param('do'); 
 	if ( $do eq "start") {
-		system ("rm $lbplogdir/manualstoppped");
 		system ("$lbpbindir/ffserver.sh start > /dev/null 2>&1");
-		sleep (3); # Give ffmpeg time to come up...
+		#sleep (3); # Give ffmpeg time to come up...
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffserver};
+			if ($? eq "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffmpeg};
+			if ($? eq "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		system ("rm $lbplogdir/manualstopped");
 	}
 	if ( $do eq "stop") {
+		system ("touch $lbplogdir/manualstopped");
 		system ("$lbpbindir/ffserver.sh stop > /dev/null 2>&1");
-		system ("touch $lbplogdir/manualstoppped");
-		sleep (3); # Give ffmpeg time to go down...
+		#sleep (3); # Give ffmpeg time to go down...
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffserver};
+			if ($? ne "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffmpeg};
+			if ($? ne "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
 	}
 	if ( $do eq "restart") {
+		system ("touch $lbplogdir/manualstopped");
 		system ("$lbpbindir/ffserver.sh stop > /dev/null 2>&1");
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffserver};
+			if ($? ne "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
 		system ("$lbpbindir/ffserver.sh start > /dev/null 2>&1");
-		sleep (3); # Give ffmpeg time to go down...
+		#sleep (3); # Give ffmpeg time to go down...
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffserver};
+			if ($? eq "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		for (my $i;$i<=10;$i++) {
+			qx{pidof ffmpeg};
+			if ($? eq "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		system ("rm $lbplogdir/manualstopped");
 	}
 }
 
-# Save Form
-if ($R::saveformdata) {
+# Form2: VLC
+if ( $cgi->param('do') && ( $cgi->param('form') eq "2" ) ) { 
+	$do = $cgi->param('do'); 
+	if ( $do eq "start") {
+		system ("$lbpbindir/vlc.sh start > /dev/null 2>&1");
+		for (my $i;$i<=10;$i++) {
+			qx{pidof vlc};
+			if ($? eq "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		system ("rm $lbplogdir/vlcmanualstopped");
+	}
+	if ( $do eq "stop") {
+		system ("touch $lbplogdir/vlcmanualstopped");
+		system ("$lbpbindir/vlc.sh stop > /dev/null 2>&1");
+		for (my $i;$i<=10;$i++) {
+			qx{pidof vlc};
+			if ($? ne "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+	}
+	if ( $do eq "restart") {
+		system ("touch $lbplogdir/manualstoppedvlc");
+		system ("$lbpbindir/vlc.sh stop > /dev/null 2>&1");
+		for (my $i;$i<=10;$i++) {
+			qx{pidof vlc};
+			if ($? ne "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		system ("$lbpbindir/vlc.sh start > /dev/null 2>&1");
+		for (my $i;$i<=10;$i++) {
+			qx{pidof vlc};
+			if ($? eq "0") {
+				last;
+			} else {
+				sleep (1);
+			}
+		}
+		system ("rm $lbplogdir/manualstoppedvlc");
+	}
+}
+
+#
+# Save forms
+#
+
+# Form1: FFServer
+if ($R::saveformdata1) {
 	
 	# Write configuration file(s)
 	if ( $R::startffserver ) {
@@ -137,12 +254,12 @@ if ($R::saveformdata) {
 			$cfg->param("CAM$i.VIDEOGOPSIZE", "5");
 		}
 		if ( ${"R::cam$i" . "videoqmin"} ) {
-			$cfg->param("CAM$i.VIDEOYMIN", ${"R::cam$i" . "videoqmin"});
+			$cfg->param("CAM$i.VIDEOQMIN", ${"R::cam$i" . "videoqmin"});
 		} else {
 			$cfg->param("CAM$i.VIDEOQMIN", "5");
 		}
 		if ( ${"R::cam$i" . "videoqmax"} ) {
-			$cfg->param("CAM$i.VIDEOYMAX", ${"R::cam$i" . "videoqmax"});
+			$cfg->param("CAM$i.VIDEOQMAX", ${"R::cam$i" . "videoqmax"});
 		} else {
 			$cfg->param("CAM$i.VIDEOQMAX", "51");
 		}
@@ -180,102 +297,225 @@ if ($R::saveformdata) {
 	
 	# Template output
 	&save;
-
 	exit;
 
 }
 
+# Form2: VLC
+if ($R::saveformdata2) {
+	
+	# Write configuration file(s)
+	if ( $R::httpport ) {
+		$cfg->param("VLC.HTTPPORT", "$R::httpport");
+	} else {
+		$cfg->param("VLC.HTTPPORT", "4000");
+	}
+	for (my $i=1;$i<=10;$i++) {
+		if ( ${"R::cam$i" . "active"} ) {
+			$cfg->param("CAM$i.VLCACTIVE", "1");
+		} else {
+			$cfg->param("CAM$i.VLCACTIVE", "0");
+		}
+		if ( ${"R::cam$i" . "url"} ) {
+			$cfg->param("CAM$i.VLCURL", ${"R::cam$i" . "url"});
+		} else {
+			$cfg->param("CAM$i.VLCURL", "");
+		}
+	}
+	
+	# Save all
+	$cfg->save();
 
-# Standard form
-$maintemplate->param( FORM => 1 );
+	system ("$lbpbindir/buildconfig.pl > /dev/null 2>&1");
+	
+	# Template output
+	&save;
+	exit;
 
-# Process PIDs
-my $pidofffserver=`pidof ffserver`;
-if (!$pidofffserver) {
-	$pidofffserver = "$L{'SETTINGS.MESSAGE_NOTRUNNING'}";
 }
-$maintemplate->param( PIDOFFFSERVER => $pidofffserver);
 
-my $pidofffmpeg=`pidof ffmpeg`;
-if (!$pidofffmpeg) {
-	$pidofffmpeg = $L{'SETTINGS.MESSAGE_NOTRUNNING'};
-}
-$maintemplate->param( PIDOFFFMPEG => $pidofffmpeg);
+#
+# Navbar
+#
+our %navbar;
+$navbar{1}{Name} = "$L{'SETTINGS.LABEL_FFSERVER'}";
+$navbar{1}{URL} = 'index.cgi?form=1';
 
-# Status page
-my $statusurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/status.html";
-$maintemplate->param( STATUSURL => $statusurl);
+$navbar{2}{Name} = "$L{'SETTINGS.LABEL_VLC'}";
+$navbar{2}{URL} = 'index.cgi?form=2';
 
-# Logfiles
-$maintemplate->param( LOGFILEBUTTON => LoxBerry::Web::loglist_button_html() );
+$navbar{3}{Name} = "$L{'SETTINGS.LABEL_LOGFILES'}";
+$navbar{3}{URL} = LoxBerry::Web::loglist_url();
+$navbar{3}{target} = '_blank';
 
-# Form
-# Start FFserver
-my @values = ('0', '1' );
-my %labels = (
-	'0' => $L{'SETTINGS.LABEL_OFF'},
-	'1' => $L{'SETTINGS.LABEL_ON'},
-);
-my $form = $cgi->popup_menu(
-	-name => 'startffserver',
-	-id => 'startffserver',
-	-values	=> \@values,
-	-labels	=> \%labels,
-	-default => $cfg->param('FFSERVER.START'),
-);
-$maintemplate->param( STARTFFSERVER => $form );
+#
+# Menu forms
+#
 
-# Path
-$form = LoxBerry::Storage::get_storage_html(
-	formid => 'path',
-	custom_folder => 1,
-	currentpath => $cfg->param("FFSERVER.PATH"),
-	readwriteonly => 1,
-	data_mini => 1);
-$maintemplate->param( PATH => $form );
+# Menu: FFServer
+if ($R::form eq "1" || !$R::form) {
 
-# Cams active, Image active, URLs
-for (my $i=1;$i<=10;$i++) {
-	@values = ('0', '1' );
-	%labels = (
+	$navbar{1}{active} = 1;
+	$maintemplate->param( "FORM1", 1);
+
+	# Process PIDs
+	my $pidofffserver=`pidof ffserver`;
+	my $inst; 
+	$inst++ while $pidofffserver =~ /\S+/g;
+	if (!$inst) {
+		$inst = "$L{'SETTINGS.MESSAGE_NOTRUNNING'}";
+	} else {
+		$inst = $inst . " $L{'SETTINGS.MESSAGE_INSTANCES'}";
+	}
+	$maintemplate->param( STATEFFSERVER => $inst);
+	chomp($pidofffserver);
+	if (!$pidofffserver) {
+		$pidofffserver = "-";
+	}
+	$maintemplate->param( PIDOFFFSERVER => $pidofffserver);
+
+	my $pidofffmpeg=`pidof ffmpeg`;
+	my $inst; 
+	$inst++ while $pidofffmpeg =~ /\S+/g;
+	if (!$inst) {
+		$inst = "$L{'SETTINGS.MESSAGE_NOTRUNNING'}";
+	} else {
+		$inst = $inst . " $L{'SETTINGS.MESSAGE_INSTANCES'}";
+	}
+	$maintemplate->param( STATEFFMPEG => $inst);
+	chomp($pidofffmpeg);
+	if (!$pidofffmpeg) {
+		$pidofffmpeg = "-";
+	}
+	$maintemplate->param( PIDOFFFMPEG => $pidofffmpeg);
+
+	# Status page
+	my $statusurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/status.html";
+	$maintemplate->param( STATUSURL => $statusurl);
+
+	# Form
+	# Start FFserver
+	my @values = ('0', '1' );
+	my %labels = (
 		'0' => $L{'SETTINGS.LABEL_OFF'},
 		'1' => $L{'SETTINGS.LABEL_ON'},
 	);
-	$form = $cgi->popup_menu(
-		-name => "cam" . $i . "active",
-		-id => "cam" . $i . "active",
+	my $form = $cgi->popup_menu(
+		-name => 'startffserver',
+		-id => 'startffserver',
 		-values	=> \@values,
 		-labels	=> \%labels,
-		-default => $cfg->param( "CAM$i" . ".ACTIVE"),
+		-default => $cfg->param('FFSERVER.START'),
 	);
-	if ( $cfg->param( "CAM$i" . ".ACTIVE") ) {
-			$maintemplate->param( "CAM$i" . "COLLAPSED" => "data-collapsed='false'" );
+	$maintemplate->param( STARTFFSERVER => $form );
+
+	# Path
+	$form = LoxBerry::Storage::get_storage_html(
+		formid => 'path',
+		custom_folder => 1,
+		currentpath => $cfg->param("FFSERVER.PATH"),
+		readwriteonly => 1,
+		data_mini => 1);
+	$maintemplate->param( PATH => $form );
+
+	# Cams active, Image active, URLs
+	for (my $i=1;$i<=10;$i++) {
+		@values = ('0', '1' );
+		%labels = (
+			'0' => $L{'SETTINGS.LABEL_OFF'},
+			'1' => $L{'SETTINGS.LABEL_ON'},
+		);
+		$form = $cgi->popup_menu(
+			-name => "cam" . $i . "active",
+			-id => "cam" . $i . "active",
+			-values	=> \@values,
+			-labels	=> \%labels,
+			-default => $cfg->param( "CAM$i" . ".ACTIVE"),
+		);
+		if ( $cfg->param( "CAM$i" . ".ACTIVE") ) {
+				$maintemplate->param( "CAM$i" . "COLLAPSED" => "data-collapsed='false'" );
+		}
+		$maintemplate->param( "CAM$i" . "ACTIVE" => $form );
+		$form = $cgi->popup_menu(
+			-name => "cam" . $i . "picactive",
+			-id => "cam" . $i . "picactive",
+			-values	=> \@values,
+			-labels	=> \%labels,
+			-default => $cfg->param( "CAM$i" . ".PICACTIVE"),
+		);
+		$maintemplate->param( "CAM$i" . "PICACTIVE" => $form );
+		my $videourl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".mjpg";
+		my $pictureurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".jpg";
+		$maintemplate->param( "CAM$i" . "VIDEOURL" => $videourl );
+		$maintemplate->param( "CAM$i" . "PICTUREURL" => $pictureurl );
 	}
-	$maintemplate->param( "CAM$i" . "ACTIVE" => $form );
-	$form = $cgi->popup_menu(
-		-name => "cam" . $i . "picactive",
-		-id => "cam" . $i . "picactive",
-		-values	=> \@values,
-		-labels	=> \%labels,
-		-default => $cfg->param( "CAM$i" . ".PICACTIVE"),
-	);
-	$maintemplate->param( "CAM$i" . "PICACTIVE" => $form );
-	my $videourl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".mjpg";
-	my $pictureurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/cam" . $i . ".jpg";
-	$maintemplate->param( "CAM$i" . "VIDEOURL" => $videourl );
-	$maintemplate->param( "CAM$i" . "PICTUREURL" => $pictureurl );
+
 }
 
+# Menu: VLC
+if ($R::form eq "2") {
+
+	$navbar{2}{active} = 1;
+	$maintemplate->param( "FORM2", 1);
+
+	# Process PIDs
+	my $pidofvlc=`pidof vlc`;
+	my $inst; 
+	$inst++ while $pidofvlc =~ /\S+/g;
+	if (!$inst) {
+		$inst = "$L{'SETTINGS.MESSAGE_NOTRUNNING'}";
+	} else {
+		$inst = $inst . " $L{'SETTINGS.MESSAGE_INSTANCES'}";
+	}
+	$maintemplate->param( STATEVLC => $inst);
+	chomp($pidofvlc);
+	if (!$pidofvlc) {
+		$pidofvlc = "-";
+	}
+	$maintemplate->param( PIDOFVLC => $pidofvlc);
+
+	# Status page
+	my $statusurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/status.html";
+	$maintemplate->param( STATUSURL => $statusurl);
+
+	# Form
+	# Cams active, URLs
+	for (my $i=1;$i<=10;$i++) {
+		@values = ('0', '1' );
+		%labels = (
+			'0' => $L{'SETTINGS.LABEL_OFF'},
+			'1' => $L{'SETTINGS.LABEL_ON'},
+		);
+		$form = $cgi->popup_menu(
+			-name => "cam" . $i . "active",
+			-id => "cam" . $i . "active",
+			-values	=> \@values,
+			-labels	=> \%labels,
+			-default => $cfg->param( "CAM$i" . ".VLCACTIVE"),
+		);
+		if ( $cfg->param( "CAM$i" . ".VLCACTIVE") ) {
+				$maintemplate->param( "CAM$i" . "COLLAPSED" => "data-collapsed='false'" );
+		}
+		$maintemplate->param( "CAM$i" . "ACTIVE" => $form );
+		my $httpport = $cfg->param("VLC.HTTPPORT")+$i-1;
+		my $videourl = "http://" . $ENV{SERVER_ADDR} . ":$httpport/cam" . $i . ".mjpg";
+		$maintemplate->param( "CAM$i" . "VIDEOURL" => $videourl );
+	}
+
+}
+
+#
 # Print Template
+#
 LoxBerry::Web::lbheader($L{'SETTINGS.LABEL_PLUGINTITLE'} . " V$version", "https://www.loxwiki.eu/display/LOXBERRY/CamStream4Lox", "");
 print $maintemplate->output;
 LoxBerry::Web::lbfooter();
 
 exit;
 
-#####################################################
+#
 # Sub Save
-#####################################################
+#
 
 sub save
 {

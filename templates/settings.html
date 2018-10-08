@@ -1,27 +1,33 @@
-<TMPL_IF FORM>
+<TMPL_IF FORM1>
 <center>
 <table border=0 cellpadding=5 cellspacing=0>
 	<tr>
 	<td align=center>
-		<a id="button" data-icon="check" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?do=start"><TMPL_VAR SETTINGS.BUTTON_START></a>
+		<a id="button" data-icon="check" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?form=1&do=start"><TMPL_VAR SETTINGS.BUTTON_START></a>
 	</td>
-	<td>
-		<a id="button" data-icon="delete" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?do=stop"><TMPL_VAR SETTINGS.BUTTON_STOP></a>
+	<td align=center>
+		<a id="button" data-icon="delete" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?form=1&do=stop"><TMPL_VAR SETTINGS.BUTTON_STOP></a>
 	</td>
-	<td>
-		<a id="button" data-icon="refresh" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?do=restart"><TMPL_VAR SETTINGS.BUTTON_RESTART></a>
+	<td align=center>
+		<a id="button" data-icon="refresh" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?form=1&do=restart"><TMPL_VAR SETTINGS.BUTTON_RESTART></a>
 	</td>
-	<td>
-		<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR STATUSURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_STATUS></a>
-	</td>
-	<td>
-		<TMPL_VAR LOGFILEBUTTON>
+	<td align=center>
+		<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR STATUSURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_FFSERVERSTATUS></a>
 	</td>
 	</tr>
+</table>
+<table border=0>
 	<tr>
-	<td colspan=5 align=center>
-		<font face="courier" size="-1"><TMPL_VAR SETTINGS.LABEL_PIDOFFFSERVER>&nbsp;<b><TMPL_VAR PIDOFFFSERVER></b>&nbsp;&nbsp;<TMPL_VAR SETTINGS.LABEL_PIDOFFFMPEG>&nbsp;<b><TMPL_VAR PIDOFFFMPEG></b></font>
-	</td>
+		<td><a href="./index.cgi?form=1" data-role="button" data-icon="refresh" data-iconpos="notext">Refresh</a></td>
+		<td>&nbsp;</td>
+		<td>
+			<font face="courier" size="-1">
+				<TMPL_VAR SETTINGS.LABEL_STATEFFSERVER>&nbsp;<b><TMPL_VAR STATEFFSERVER></b>&nbsp;
+				(<TMPL_VAR SETTINGS.LABEL_PID>&nbsp;<b><TMPL_VAR PIDOFFFSERVER></b>)&nbsp;&nbsp;
+				<TMPL_VAR SETTINGS.LABEL_STATEFFMPEG>&nbsp;<b><TMPL_VAR STATEFFMPEG></b>&nbsp;
+				(<TMPL_VAR SETTINGS.LABEL_PID>&nbsp;<b><TMPL_VAR PIDOFFFMPEG></b>)&nbsp;&nbsp;
+			</font>
+		</td>
 	</tr>
 </table>
 </center>
@@ -31,7 +37,7 @@
 <br>
 
 <form method="post" data-ajax="false" name="main_form" id="main_form" action="./index.cgi">
-	<input type="hidden" name="saveformdata" value="1">
+	<input type="hidden" name="saveformdata1" value="1">
 	<div class="form-group">
 
 		<table class="formtable" border="0" width="100%" cellpadding="10">
@@ -2439,6 +2445,716 @@ $( document ).ready(function()
 });
 </script>
 </TMPL_IF>
+
+
+
+
+
+<TMPL_IF FORM2>
+<center>
+<table border=0 cellpadding=5 cellspacing=0>
+	<tr>
+	<td align=center>
+		<a id="button" data-icon="check" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?form=2&do=start"><TMPL_VAR SETTINGS.BUTTON_START></a>
+	</td>
+	<td>
+		<a id="button" data-icon="delete" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?form=2&do=stop"><TMPL_VAR SETTINGS.BUTTON_STOP></a>
+	</td>
+	<td>
+		<a id="button" data-icon="refresh" data-role="button" data-inline="true" data-mini="true" href="./index.cgi?form=2&do=restart"><TMPL_VAR SETTINGS.BUTTON_RESTART></a>
+	</td>
+	</tr>
+	<tr>
+</table>
+<table border=0>
+	<tr>
+		<td><a href="./index.cgi?form=2" data-role="button" data-icon="refresh" data-iconpos="notext">Refresh</a></td>
+		<td>&nbsp;</td>
+		<td>
+			<font face="courier" size="-1">
+				<TMPL_VAR SETTINGS.LABEL_STATEVLC>&nbsp;<b><TMPL_VAR STATEVLC></b>&nbsp;
+				(<TMPL_VAR SETTINGS.LABEL_PID>&nbsp;<b><TMPL_VAR PIDOFVLC></b>)&nbsp;&nbsp;
+			</font>
+		</td>
+	</tr>
+</table>
+</center>
+
+<hr>
+
+<br>
+
+<form method="post" data-ajax="false" name="main_form" id="main_form" action="./index.cgi">
+	<input type="hidden" name="saveformdata2" value="1">
+	<div class="form-group">
+
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td width="25%">
+					<label id="labelhttpport"><TMPL_VAR SETTINGS.LABEL_VLCHTTPPORT></label>
+				</td>
+				<td width="50%">
+					<input type="text" name="httpport" id="httpport" value="<TMPL_VAR VLC.HTTPPORT>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_HTTPPORT>"
+          data-validation-rule="special:number-max-value:65535">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VLCHTTPPORT></font>
+				</td>
+			</tr>
+		</table>
+
+		<br><br>
+
+		<div data-role="collapsible" <TMPL_VAR CAM1COLLAPSED>>
+		<h3>1. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM1VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM1ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM1VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam1url" id="cam1url" value="<TMPL_VAR CAM1.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM2COLLAPSED>>
+		<h3>2. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM2VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2active"><TMPL_VAR SETTINGS.LABEL_CAM2ACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM2ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM2ACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM2VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam2url" id="cam2url" value="<TMPL_VAR CAM2.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM3COLLAPSED>>
+		<h3>3. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM3VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3active"><TMPL_VAR SETTINGS.LABEL_CAM3ACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM3ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM3ACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM3VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam3url" id="cam3url" value="<TMPL_VAR CAM3.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM4COLLAPSED>>
+		<h3>4. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM4VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4active"><TMPL_VAR SETTINGS.LABEL_CAM4ACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM4ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM4ACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM4VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam4url" id="cam4url" value="<TMPL_VAR CAM4.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM5COLLAPSED>>
+		<h3>5. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM5VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5active"><TMPL_VAR SETTINGS.LABEL_CAM5ACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM5ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM5ACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM5VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam5url" id="cam5url" value="<TMPL_VAR CAM5.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM6COLLAPSED>>
+		<h3>6. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM6VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM6ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM6VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam6url" id="cam6url" value="<TMPL_VAR CAM6.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM7COLLAPSED>>
+		<h3>7. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM7VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM7ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM7VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam7url" id="cam7url" value="<TMPL_VAR CAM7.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM8COLLAPSED>>
+		<h3>8. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM8VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM8ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM8VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam8url" id="cam8url" value="<TMPL_VAR CAM8.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM9COLLAPSED>>
+		<h3>9. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM9VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM9ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM9VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam9url" id="cam9url" value="<TMPL_VAR CAM9.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<div data-role="collapsible" <TMPL_VAR CAM10COLLAPSED>>
+		<h3>10. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
+		<table class="formtable" border="0" width="100%" cellpadding="10">
+			<tr>
+				<td colspan=4">
+					<table border=0>
+						<tr>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM10VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM10ACTIVE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_VIDEOSTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM10VIDEOURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+				</td>
+				<td width="50%">
+					<input name="cam10url" id="cam10url" value="<TMPL_VAR CAM10.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
+					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+		</table>
+		</div>
+
+		<p>
+		&nbsp;
+		</p>
+		<p>
+		<center>
+			<a id="btncancel" data-role="button" data-inline="true" data-mini="true" data-icon="delete" href="./index.cgi?form=1"><TMPL_VAR SETTINGS.BUTTON_CANCEL></a>
+			<button type="submit" form="main_form" id="btnsubmit" data-role="button" data-inline="true" data-mini="true" data-icon="check"><TMPL_VAR SETTINGS.BUTTON_SAVE></button>
+		</center>
+		</p>
+
+	</div>
+</form>
+
+<script>
+// Add some attributes PERL::CGI doesn't provide
+$('select[name=startffserver]').attr('data-role','flipswitch');
+$('select[name=cam1active]').attr('data-role','flipswitch');
+$('select[name=cam1picactive]').attr('data-role','flipswitch');
+$('select[name=cam2active]').attr('data-role','flipswitch');
+$('select[name=cam2picactive]').attr('data-role','flipswitch');
+$('select[name=cam3active]').attr('data-role','flipswitch');
+$('select[name=cam3picactive]').attr('data-role','flipswitch');
+$('select[name=cam4active]').attr('data-role','flipswitch');
+$('select[name=cam4picactive]').attr('data-role','flipswitch');
+$('select[name=cam5active]').attr('data-role','flipswitch');
+$('select[name=cam5picactive]').attr('data-role','flipswitch');
+$('select[name=cam6active]').attr('data-role','flipswitch');
+$('select[name=cam6picactive]').attr('data-role','flipswitch');
+$('select[name=cam7active]').attr('data-role','flipswitch');
+$('select[name=cam7picactive]').attr('data-role','flipswitch');
+$('select[name=cam8active]').attr('data-role','flipswitch');
+$('select[name=cam8picactive]').attr('data-role','flipswitch');
+$('select[name=cam9active]').attr('data-role','flipswitch');
+$('select[name=cam9picactive]').attr('data-role','flipswitch');
+$('select[name=cam10active]').attr('data-role','flipswitch');
+$('select[name=cam10picactive]').attr('data-role','flipswitch');
+
+// Form validation
+$( document ).ready(function()
+{
+	validate_enable('#cam1url');
+	validate_enable('#cam1videosize');
+	validate_enable('#cam1imagesize');
+	validate_enable('#cam2url');
+	validate_enable('#cam2videosize');
+	validate_enable('#cam2imagesize');
+	validate_enable('#cam3url');
+	validate_enable('#cam3videosize');
+	validate_enable('#cam3imagesize');
+	validate_enable('#cam4url');
+	validate_enable('#cam4videosize');
+	validate_enable('#cam4imagesize');
+	validate_enable('#cam5url');
+	validate_enable('#cam5videosize');
+	validate_enable('#cam5imagesize');
+	validate_enable('#cam6url');
+	validate_enable('#cam6videosize');
+	validate_enable('#cam6imagesize');
+	validate_enable('#cam7url');
+	validate_enable('#cam7videosize');
+	validate_enable('#cam7imagesize');
+	validate_enable('#cam8url');
+	validate_enable('#cam8videosize');
+	validate_enable('#cam8imagesize');
+	validate_enable('#cam9url');
+	validate_enable('#cam9videosize');
+	validate_enable('#cam9imagesize');
+	validate_enable('#cam10url');
+	validate_enable('#cam10videosize');
+	validate_enable('#cam10imagesize');
+});
+</script>
+</TMPL_IF>
+
+
+
+
 
 <TMPL_IF SAVE>
 <center>

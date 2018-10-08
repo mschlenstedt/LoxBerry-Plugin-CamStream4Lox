@@ -42,10 +42,13 @@ my $version = "0.0.3";
 my $pcfg     = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
 # Create a logging object
-my $log = LoxBerry::Log->new ( 	name => 'buildconfig',
-			filename => "$lbplogdir/buildconfig.log",
-			append => 1,
+my $log = LoxBerry::Log->new ( 
+			package => 'camstream4lox',
+			name => 'buildconfig',
+			logdir => "$lbplogdir",
 );
+
+LOGSTART;
 
 # Commandline options
 my $verbose = '';
@@ -53,10 +56,7 @@ my $verbose = '';
 GetOptions ('verbose' => \$verbose,
             'quiet'   => sub { $verbose = 0 });
 
-my $logstarted;
 if ($verbose) {
-	LOGSTART "CamStream4Lox Build Config process started in debug mode";
-	$logstarted = 1;
 	$log->stdout(1);
 	$log->loglevel(7);
 }
@@ -71,12 +71,8 @@ if (-e "$lbpconfigdir/ffserver.conf") {
 LOGINF "Building $lbpconfigdir/ffserver.conf";
 open(F,">$lbpconfigdir/ffserver.conf") or $error = 1;
 if ($error) {
-	if (!$logstarted) {
-		LOGSTART "CamStream4Lox Build Config process found a problem";
-		$logstarted = 1;
-	}
 	LOGCRIT "Cannot open $lbpconfigdir/ffserver.conf for writing.";
-	LOGEND "Exit.";
+	LOGEND;
 	exit 2;
 }
 
@@ -86,10 +82,6 @@ my $path = $pcfg->param("FFSERVER.PATH");
 system ("mkdir -p $path");
 open(F1,">$path/writetest") or $error = 1;
 if ($error) {
-	if (!$logstarted) {
-		LOGSTART "CamStream4Lox Build Config process found a problem";
-		$logstarted = 1;
-	}
 	LOGCRIT "Cannot open $path for writing. Falling back to plugin's data-folder.";
 	$path = "$lbpdatadir/tmp";
 }
@@ -110,10 +102,6 @@ if (-e "$lbpconfigdir/ffserver_serverdefaults.conf") {
 
 	open(F1,"<$lbpconfigdir/ffserver_serverdefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstarted) {
-			LOGSTART "CamStream4Lox Build Config process found a problem";
-			$logstarted = 1;
-		}
 		LOGWARN "Cannot read $lbpconfigdir/ffserver_serverdefaults.conf. Skipping";
 		$error = 0;
 	} else {
@@ -137,10 +125,6 @@ if (-e "$lbpconfigdir/ffserver_feeddefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_feeddefaults.conf";
 	open(F1,"<$lbpconfigdir/ffserver_feeddefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstarted) {
-			LOGSTART "CamStream4Lox Build Config process found a problem";
-			$logstarted = 1;
-		}
 		LOGWARN "Cannot read $lbpconfigdir/ffserver_feeddefaults.conf. Skipping";
 		$error = 0;
 	} else {
@@ -187,10 +171,6 @@ if (-e "$lbpconfigdir/ffserver_streamdefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_streamdefaults.conf";
 	open(F1,"<$lbpconfigdir/ffserver_streamdefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstarted) {
-			LOGSTART "CamStream4Lox Build Config process found a problem";
-			$logstarted = 1;
-		}
 		LOGWARN "Cannot read $lbpconfigdir/ffserver_streamdefaults.conf. Skipping";
 		$error = 0;
 	} else {
@@ -250,10 +230,6 @@ if (-e "$lbpconfigdir/ffserver_imagedefaults.conf") {
 	LOGINF "Found additional default options in $lbpconfigdir/ffserver_imagedefaults.conf";
 	open(F1,"<$lbpconfigdir/ffserver_imagedefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstarted) {
-			LOGSTART "CamStream4Lox Build Config process found a problem";
-			$logstarted = 1;
-		}
 		LOGWARN "Cannot read $lbpconfigdir/ffserver_imagedefaults.conf. Skipping";
 		$error = 0;
 	} else {
@@ -307,10 +283,6 @@ if (-e "$lbpconfigdir/ffserver_statusdefaults.conf") {
 
 	open(F1,"<$lbpconfigdir/ffserver_statusdefaults.conf") or $error = 1;
 	if ($error) {
-		if (!$logstarted) {
-			LOGSTART "CamStream4Lox Build Config process found a problem";
-			$logstarted = 1;
-		}
 		LOGWARN "Cannot read $lbpconfigdir/ffserver_statusdefaults.conf. Skipping";
 		$error = 0;
 	} else {

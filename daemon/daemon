@@ -3,7 +3,14 @@
 # pluginname=$(basename $0 .sh)
 PLUGINNAME=REPLACELBPPLUGINDIR
 
-echo "DAEMON: Starting DAEMON script" >> $LBPLOG/$PLUGINNAME/ffserver.log
+# Logfile
+. $LBHOMEDIR/libs/bashlib/loxberry_log.sh
+PACKAGE=${PLUGINNAME}
+NAME=daemon
+LOGDIR=$LBPLOG/${PLUGINNAME}
+STDERR=1
+
+LOGSTART
 if [ -x /usr/bin/logger ]; then
     /usr/bin/logger "loxberry-plugin-$PLUGINNAME - DAEMON Script from $PLUGINNAME Plugin"
 fi
@@ -12,16 +19,26 @@ fi
 # Source the iniparser
 . $LBHOMEDIR/libs/bashlib/iniparser.sh
  
+# FFServer
 iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "FFSERVER"
 
-if [ $START -eq 1 ]; then
-	echo "DAEMON: Starting FFServer" >> $LBPLOG/$PLUGINNAME/ffserver.log
-	if [ -x /usr/bin/logger ]; then
-		/usr/bin/logger "loxberry-plugin-$PLUGINNAME - Starting FFServer"
-	fi
+LOGINF "Starting FFServer (if enabled)"
+if [ -x /usr/bin/logger ]; then
+	/usr/bin/logger "loxberry-plugin-$PLUGINNAME - Starting FFServer (if enabled)"
+fi
+if [ $FFSERVERSTART -eq 1 ]; then
 	# Enable
 	$LBHOMEDIR/bin/plugins/$PLUGINNAME/ffserver.sh start > /dev/null 2>&1
 fi
 
+# VLC
+LOGINF "Starting VLC (if enabled)"
+if [ -x /usr/bin/logger ]; then
+	/usr/bin/logger "loxberry-plugin-$PLUGINNAME - Starting VLC (if enabled)"
+fi
+# Enable
+$LBHOMEDIR/bin/plugins/$PLUGINNAME/vlc.sh start > /dev/null 2>&1
+
 # Exit with Status 0
+LOGEND
 exit 0
