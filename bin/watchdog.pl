@@ -38,11 +38,7 @@ use LWP::Simple;
 ##########################################################################
 
 # Version of this script
-<<<<<<< HEAD
 my $version = "0.0.4";
-=======
-my $version = "0.0.3";
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 
 my $pcfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
@@ -122,8 +118,6 @@ if ( $pcfg->param("FFSERVER.START") ) {
 		}
 	}
 
-
-<<<<<<< HEAD
 	$restart = 0;
 	for (my $i=1;$i<=10;$i++) {
 		$streamok = 0;
@@ -162,43 +156,6 @@ if ( $pcfg->param("FFSERVER.START") ) {
 			system ("$lbpbindir/buildconfig.pl -v");
 		} else {
 			system ("$lbpbindir/buildconfig.pl");
-=======
-# Check if status webpage is reachable
-if (!$website_content){
-	LOGWARN "Watchdog for FFServer found a problem: Status webpage of FFServer isn't reachable. (Re-)Start FFServer.";
-	system ("$lbpbindir/ffserver.sh stop");
-	sleep (5);
-	system ("$lbpbindir/buildconfig.pl");
-	sleep (5);
-	system ("$lbpbindir/ffserver.sh start");
-	qx{pidof ffserver};
-	if ($? eq "0") {
-		LOGOK "FFServer started successfully."
-	} else {
-		LOGERR "FFServer could not be started."
-	}
-}
-
-
-$restart = 0;
-for (my $i=1;$i<=10;$i++) {
-	$streamok = 0;
-	if ($pcfg->param("CAM$i.ACTIVE")) {
-		LOGINF "Cam$i is active - checking state.";
-		while ($website_content =~ /<tr><td><b>(.*)<\/b><td>(.*)<td>(.*)<td>(.*)<td>(.*)<td align=right>(.*)<td align=right>(.*)<td align=right>(.*)/g) {
-    			my($no, $file, $ip, $proto, $state, $targetbits, $actualbits, $transfered) = ($1, $2, $3, $4, $5, $6, $7, $8);
-			if ($file eq "cam$i.ffm(input)" && $state eq "RECEIVE_DATA") {
-				$streamok = 1;
-			}
-			#print "Number: $no\n";
-			#print "File  : $file\n";
-			#print "IP    : $ip\n";
-			#print "Proto : $proto\n";
-			#print "State : $state\n";
-			#print "Target: $targetbits\n";
-			#print "Actual: $actualbits\n";
-			#print "Transf: $transfered\n";
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 		}
 		sleep (5);
 		system ("$lbpbindir/ffserver.sh start");
@@ -211,7 +168,6 @@ for (my $i=1;$i<=10;$i++) {
 	}
 }
 
-<<<<<<< HEAD
 # VLC
 if ( $vlcstart ) {
 
@@ -251,27 +207,5 @@ if ( $vlcstart ) {
 	}
 }
 
-
-=======
-if ($restart) {
-	LOGINF "Restarting FFServer";
-	system ("$lbpbindir/ffserver.sh stop");
-	sleep (5);
-	if ($verbose) {
-		system ("$lbpbindir/buildconfig.pl -v");
-	} else {
-		system ("$lbpbindir/buildconfig.pl");
-	}
-	sleep (5);
-	system ("$lbpbindir/ffserver.sh start");
-	qx{pidof ffserver};
-	if ($? eq "0") {
-		LOGOK "FFServer started successfully."
-	} else {
-		LOGERR "FFServer could not be started."
-	}
-}
-
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 LOGEND;
 exit 0;

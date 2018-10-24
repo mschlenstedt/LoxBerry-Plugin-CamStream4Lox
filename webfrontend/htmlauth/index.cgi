@@ -312,14 +312,11 @@ if ($R::saveformdata1) {
 if ($R::saveformdata2) {
 	
 	# Write configuration file(s)
-<<<<<<< HEAD
 	if ( $R::cronvlc ) {
 		$cfg->param("VLC.CRON", "1");
 	} else {
 		$cfg->param("VLC.CRON", "0");
 	}
-=======
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 	if ( $R::httpport ) {
 		$cfg->param("VLC.HTTPPORT", "$R::httpport");
 	} else {
@@ -344,10 +341,7 @@ if ($R::saveformdata2) {
 	system ("$lbpbindir/buildconfig.pl > /dev/null 2>&1");
 	
 	# Template output
-<<<<<<< HEAD
 	$maintemplate->param( "FORM", 2);
-=======
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 	&save;
 	exit;
 
@@ -425,7 +419,6 @@ if ($R::form eq "1" || !$R::form) {
 		-values	=> \@values,
 		-labels	=> \%labels,
 		-default => $cfg->param('FFSERVER.START'),
-<<<<<<< HEAD
 	);
 	$maintemplate->param( STARTFFSERVER => $form );
 	
@@ -443,10 +436,6 @@ if ($R::form eq "1" || !$R::form) {
 		-default => $cfg->param('FFSERVER.CRON'),
 	);
 	$maintemplate->param( CRONFFSERVER => $form );
-=======
-	);
-	$maintemplate->param( STARTFFSERVER => $form );
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 
 	# Path
 	$form = LoxBerry::Storage::get_storage_html(
@@ -513,7 +502,6 @@ if ($R::form eq "2") {
 	}
 	$maintemplate->param( PIDOFVLC => $pidofvlc);
 
-<<<<<<< HEAD
 	# Form
 	# Cron VLC
 	my @values = ('0', '1' );
@@ -530,13 +518,6 @@ if ($R::form eq "2") {
 	);
 	$maintemplate->param( CRONVLC => $form );
 
-=======
-	# Status page
-	my $statusurl = "http://" . $ENV{SERVER_ADDR} . ":" . $cfg->param("FFSERVER.HTTPPORT") . "/status.html";
-	$maintemplate->param( STATUSURL => $statusurl);
-
-	# Form
->>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 	# Cams active, URLs
 	for (my $i=1;$i<=10;$i++) {
 		@values = ('0', '1' );
