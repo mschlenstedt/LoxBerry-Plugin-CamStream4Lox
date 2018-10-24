@@ -358,7 +358,7 @@ $navbar{2}{Name} = "$L{'SETTINGS.LABEL_VLC'}";
 $navbar{2}{URL} = 'index.cgi?form=2';
 
 $navbar{3}{Name} = "$L{'SETTINGS.LABEL_MULTIVIEW'}";
-$navbar{3}{URL} = '/plugins/$lbpplugindir/index.html';
+$navbar{3}{URL} = "/plugins/$lbpplugindir/index.html";
 $navbar{3}{target} = '_blank';
 
 $navbar{99}{Name} = "$L{'SETTINGS.LABEL_LOGFILES'}";
