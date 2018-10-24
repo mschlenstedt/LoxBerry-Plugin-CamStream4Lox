@@ -57,6 +57,20 @@
 			</tr>
 			<tr>
 				<td width="25%">
+					<label id="labelcronffserver"><TMPL_VAR SETTINGS.LABEL_CRONFFSERVER></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CRONFFSERVER>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CRONFFSERVER></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
 					<label id="labelhttpport"><TMPL_VAR SETTINGS.LABEL_HTTPPORT></label>
 				</td>
 				<td width="50%">
@@ -2388,6 +2402,7 @@
 <script>
 // Add some attributes PERL::CGI doesn't provide
 $('select[name=startffserver]').attr('data-role','flipswitch');
+$('select[name=cronffserver]').attr('data-role','flipswitch');
 $('select[name=cam1active]').attr('data-role','flipswitch');
 $('select[name=cam1picactive]').attr('data-role','flipswitch');
 $('select[name=cam2active]').attr('data-role','flipswitch');
@@ -2491,6 +2506,23 @@ $( document ).ready(function()
 		<table class="formtable" border="0" width="100%" cellpadding="10">
 			<tr>
 				<td width="25%">
+<<<<<<< HEAD
+					<label id="labelcronvlc"><TMPL_VAR SETTINGS.LABEL_CRONVLC></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CRONVLC>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CRONVLC></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+=======
+>>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 					<label id="labelhttpport"><TMPL_VAR SETTINGS.LABEL_VLCHTTPPORT></label>
 				</td>
 				<td width="50%">
@@ -3093,7 +3125,11 @@ $( document ).ready(function()
 
 <script>
 // Add some attributes PERL::CGI doesn't provide
+<<<<<<< HEAD
+$('select[name=cronvlc]').attr('data-role','flipswitch');
+=======
 $('select[name=startffserver]').attr('data-role','flipswitch');
+>>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 $('select[name=cam1active]').attr('data-role','flipswitch');
 $('select[name=cam1picactive]').attr('data-role','flipswitch');
 $('select[name=cam2active]').attr('data-role','flipswitch');
@@ -3170,7 +3206,7 @@ $( document ).ready(function()
 	<tr>
 		<td align="center">
 		<p>
-		<a id="btnok" data-role="button" data-inline="true" data-mini="true" data-icon="check" href="./index.cgi"><TMPL_VAR SETTINGS.BUTTON_OK></a>
+		<a id="btnok" data-role="button" data-inline="true" data-mini="true" data-icon="check" href="./index.cgi?form=<TMPL_VAR FORM>"><TMPL_VAR SETTINGS.BUTTON_OK></a>
 		</p>
 		</td>
 	</tr>

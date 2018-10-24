@@ -6,6 +6,13 @@ PATH="/sbin:/bin:/usr/sbin:/usr/bin:$LBHOMEDIR/bin:$LBHOMEDIR/sbin"
 ENVIRONMENT=$(cat /etc/environment)
 export $ENVIRONMENT
 
+<<<<<<< HEAD
+# Source iniparser
+. $LBHOMEDIR/libs/bashlib/iniparser.sh
+iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "VLC"
+
+=======
+>>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 # Logfile
 . $LBHOMEDIR/libs/bashlib/loxberry_log.sh
 PACKAGE=${PLUGINNAME}
@@ -15,6 +22,9 @@ STDERR=1
 
 LOGSTART
 
+<<<<<<< HEAD
+# PATH
+=======
 # Check if we should start FFServer at boottime
 # Source the iniparser
 . $LBHOMEDIR/libs/bashlib/iniparser.sh
@@ -22,6 +32,7 @@ iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "VLC"
 
 # Oups, not a very clever name for the temppath in our config, when using bash...
 TMPPATH=$PATH
+>>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 PATH="/sbin:/bin:/usr/sbin:/usr/bin:$LBHOMEDIR/bin:$LBHOMEDIR/sbin"
 
 case "$1" in
@@ -45,13 +56,20 @@ case "$1" in
 		CAMACTIVE="CAM$COUNTER""VLCACTIVE"
 		CAMURL="CAM$COUNTER""VLCURL"
          	let HTTPPORT=${VLCHTTPPORT}+$COUNTER-1
+<<<<<<< HEAD
+		if [ ${!CAMACTIVE} -eq "1" ]; then
+=======
 		if [ ${!CAMACTIVE} -eq 1 ]; then
+>>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 			ACTIVELOG=1
 			LOGINF "Cam $COUNTER is active. Starting VLC instance..."
 
 			# Logfile for output from vlc
          		let LOGSCOUNT=LOGSCOUNT+1 
+<<<<<<< HEAD
+=======
 			echo "Current log is $LOGSCOUNT"
+>>>>>>> 4c134a9cc993d20b83b082260d33b642e381c396
 			PACKAGE=${PLUGINNAME}
 			NAME=vlc${COUNTER}_run
 			LOGDIR=$LBPLOG/${PLUGINNAME}
