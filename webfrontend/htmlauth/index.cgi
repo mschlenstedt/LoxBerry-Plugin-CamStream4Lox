@@ -357,9 +357,13 @@ $navbar{1}{URL} = 'index.cgi?form=1';
 $navbar{2}{Name} = "$L{'SETTINGS.LABEL_VLC'}";
 $navbar{2}{URL} = 'index.cgi?form=2';
 
-$navbar{3}{Name} = "$L{'SETTINGS.LABEL_LOGFILES'}";
-$navbar{3}{URL} = LoxBerry::Web::loglist_url();
+$navbar{3}{Name} = "$L{'SETTINGS.LABEL_MULTIVIEW'}";
+$navbar{3}{URL} = '/plugins/$lbpplugindir/index.html';
 $navbar{3}{target} = '_blank';
+
+$navbar{99}{Name} = "$L{'SETTINGS.LABEL_LOGFILES'}";
+$navbar{99}{URL} = LoxBerry::Web::loglist_url();
+$navbar{99}{target} = '_blank';
 
 #
 # Menu forms
