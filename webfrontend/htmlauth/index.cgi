@@ -65,7 +65,7 @@ my %L = LoxBerry::System::readlanguage($maintemplate, "language.ini");
 my $do;
 
 # Form 1: FFServer
-if ( $cgi->param('do') && ( $cgi->param('form') eq "1" || !$cgi->param('form') ) ) { 
+if ( $cgi->param('do') && ( $cgi->param('form') eq "1" ) ) { 
 	$do = $cgi->param('do'); 
 	if ( $do eq "start") {
 		system ("$lbpbindir/ffserver.sh start > /dev/null 2>&1");
@@ -143,7 +143,7 @@ if ( $cgi->param('do') && ( $cgi->param('form') eq "1" || !$cgi->param('form') )
 }
 
 # Form2: VLC
-if ( $cgi->param('do') && ( $cgi->param('form') eq "2" ) ) { 
+if ( $cgi->param('do') && ( $cgi->param('form') eq "2" || !$cgi->param('form') ) ) { 
 	$do = $cgi->param('do'); 
 	if ( $do eq "start") {
 		system ("$lbpbindir/vlc.sh start > /dev/null 2>&1");
@@ -370,9 +370,9 @@ $navbar{99}{target} = '_blank';
 #
 
 # Menu: FFServer
-if ($R::form eq "1" || !$R::form) {
+if ($R::form eq "1") {
 
-	$navbar{1}{active} = 1;
+	$navbar{2}{active} = 1;
 	$maintemplate->param( "FORM1", 1);
 
 	# Check for Debian Buster
@@ -492,9 +492,9 @@ if ($R::form eq "1" || !$R::form) {
 }
 
 # Menu: VLC
-if ($R::form eq "2") {
+if ($R::form eq "2" || !$R::form) {
 
-	$navbar{2}{active} = 1;
+	$navbar{1}{active} = 1;
 	$maintemplate->param( "FORM2", 1);
 
 	# Process PIDs
