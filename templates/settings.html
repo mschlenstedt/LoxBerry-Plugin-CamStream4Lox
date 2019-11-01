@@ -1,4 +1,13 @@
 <TMPL_IF FORM1>
+
+<TMPL_IF BUSTER>
+
+<center>
+	<b><TMPL_VAR SETTINGS.HINT_BUSTER></b>
+</center>
+
+<TMPL_ELSE>
+
 <center>
 <table border=0 cellpadding=5 cellspacing=0>
 	<tr>
@@ -2459,6 +2468,9 @@ $( document ).ready(function()
 	validate_enable('#cam10imagesize');
 });
 </script>
+
+</TMPL_IF>
+
 </TMPL_IF>
 
 

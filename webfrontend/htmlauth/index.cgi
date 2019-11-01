@@ -351,11 +351,11 @@ if ($R::saveformdata2) {
 # Navbar
 #
 our %navbar;
-$navbar{1}{Name} = "$L{'SETTINGS.LABEL_FFSERVER'}";
-$navbar{1}{URL} = 'index.cgi?form=1';
+$navbar{1}{Name} = "$L{'SETTINGS.LABEL_VLC'}";
+$navbar{1}{URL} = 'index.cgi?form=2';
 
-$navbar{2}{Name} = "$L{'SETTINGS.LABEL_VLC'}";
-$navbar{2}{URL} = 'index.cgi?form=2';
+$navbar{2}{Name} = "$L{'SETTINGS.LABEL_FFSERVER'}";
+$navbar{2}{URL} = 'index.cgi?form=1';
 
 $navbar{3}{Name} = "$L{'SETTINGS.LABEL_MULTIVIEW'}";
 $navbar{3}{URL} = "/plugins/$lbpplugindir/index.html";
@@ -374,6 +374,13 @@ if ($R::form eq "1" || !$R::form) {
 
 	$navbar{1}{active} = 1;
 	$maintemplate->param( "FORM1", 1);
+
+	# Check for Debian Buster
+	my $debver=`cat /etc/debian_version | grep -q -e "^10"`;
+	my $exitcode  = $? >> 8;
+	if ($exitcode eq "0") {
+		$maintemplate->param( "BUSTER", 1);
+	}
 
 	# Process PIDs
 	my $pidofffserver=`pidof ffserver`;
