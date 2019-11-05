@@ -380,6 +380,10 @@ if ($R::form eq "1") {
 	my $exitcode  = $? >> 8;
 	if ($exitcode eq "0") {
 		$maintemplate->param( "BUSTER", 1);
+		if ( $cfg->param("FFSERVER.START") ) {
+			$cfg->param("FFSERVER.START", "0");
+			$cfg->save();
+		}
 	}
 
 	# Process PIDs
