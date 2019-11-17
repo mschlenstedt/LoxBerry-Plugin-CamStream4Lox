@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PLUGINNAME=REPLACELBPPLUGINDIR
+PLUGINNAME=camstream4lox
 PATH="/sbin:/bin:/usr/sbin:/usr/bin:$LBHOMEDIR/bin:$LBHOMEDIR/sbin"
 
 ENVIRONMENT=$(cat /etc/environment)
@@ -43,6 +43,7 @@ case "$1" in
 
 		iniparser $LBPCONFIG/$PLUGINNAME/camstream4lox.cfg "CAM$COUNTER"
 		CAMACTIVE="CAM$COUNTER""VLCACTIVE"
+		TRANSCODE="CAM$COUNTER""VLCTRANSCODE"
 		CAMURL="CAM$COUNTER""VLCURL"
          	let HTTPPORT=${VLCHTTPPORT}+$COUNTER-1
 		if [ ${!CAMACTIVE} -eq "1" ]; then
@@ -59,25 +60,58 @@ case "$1" in
 			ACTIVELOG=${LOGSCOUNT}
 			LOGINF "This is the log from VLC instance CAM$COUNTER"
 
-			if [ $UID -eq 0 ]; then
-				LOGINF "CMD: su loxberry -c \"cvlc -I dummy -v -R ${!CAMURL} --sout='#std{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &\""
-				su loxberry -c "cvlc -I dummy -v -R ${!CAMURL} --sout='#std{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
+			if [ ${VLCUSERNAME} ] && [ ${VLCPASSWORD} ]; then
+				LOGINF "MJPEG Streams will be protected with Username/Password..."
+				MJPEGAUTH="user=${VLCUSERNAME},pwd=${VLCPASSWORD},"
+				MJPEGAUTHLOG="user=<USERNAME>,pwd=<PASSWORD>,"
 			else
-				LOGINF "cvlc -I dummy -v -R ${!CAMURL} --sout=\"#std{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}\" --sout-keep >> ${FILENAME} 2>&1 &"
-				cvlc -I dummy -v -R ${!CAMURL} --sout="#std{access=http{mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}" --sout-keep >> ${FILENAME} 2>&1 &
+				MJPEGAUTH=""
+				MJPEGAUTHLOG=""
+			fi
+
+
+			if [ ${!TRANSCODE} -eq "1" ]; then
+				LOGINF "Stream will be transcoded."
+				VB="CAM$COUNTER""VIDEOBITRATE"
+				FPS="CAM$COUNTER""VIDEOFRAMERATE"
+				EXTRASFEED=",""CAM$COUNTER""EXTRAS_FEED"
+				WIDTH="CAM$COUNTER""VIDEOWIDTH"
+				if [ ! ${!WIDTH} ]; then
+					WIDTH=""
+				else
+					WIDTH=",width=${!WIDTH}"
+				fi
+				HEIGHT="CAM$COUNTER""VIDEOHEIGHT"
+				if [ ! ${!HEIGHT} ]; then
+					HEIGHT=""
+				else
+					HEIGHT=",height=${!HEIGHT}"
+				fi
+				TRANSCODEOPTIONS="transcode{threads=2,acodec=none,vcodec=MJPG,vb=${!VB},scale=1${WIDTH}${HEIGHT},fps=${!FPS}}:"
+				LOGINF "Transcode Options are: ${TRANSCODEOPTIONS}"
+			fi
+			if [ $UID -eq 0 ]; then
+				chown -R loxberry:loxberry $LOGDIR/*
+				LOGINF "CMD: su loxberry -c \"cvlc -I dummy -v -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTHLOG}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &\""
+				su loxberry -c "cvlc -I dummy -v -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTH}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
+			else
+				LOGINF "cvlc -I dummy -v -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTHLOG}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
+				cvlc -I dummy -v -R ${!CAMURL} --sout="#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTH}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}" --sout-keep >> ${FILENAME} 2>&1 &
 			fi
 		fi
          	let COUNTER=COUNTER+1 
 	done
 
 	ACTIVELOG=1
-	if [ "$(pidof vlc)" ]; then
+	sleep 2s
+	if [ "$(pgrep -f /usr/bin/vlc)" ]; then
 		LOGOK "VLC started successfully."
 	else
 		LOGERR "VLC could not be started."
 	fi
 
 	LOGEND
+	chown -R loxberry:loxberry $LOGDIR/*
         exit 0
         ;;
 
@@ -88,12 +122,12 @@ case "$1" in
 	killall vlc >> ${FILENAME} 2>&1
 	COUNTER=0
 	while [  $COUNTER -lt 10 ]; do
-		if [ "$(pidof vlc)" ]; then
+		if [ "$(pgrep -f /usr/bin/vlc)" ]; then
 			sleep 1s
 			if [ $COUNTER -lt 5 ]; then
-				killall vlc >> ${FILENAME} 2>&1
+				pkill -f /usr/bin/vlc >> ${FILENAME} 2>&1
 			else
-				killall -9 vlc >> ${FILENAME} 2>&1
+				pkill -9 -f /usr/bin/vlc >> ${FILENAME} 2>&1
 			fi
          		let COUNTER=COUNTER+1 
 		else
@@ -101,13 +135,14 @@ case "$1" in
 		fi
 	done
 
-	if [ "$(pidof vlc)" ]; then
+	if [ "$(pgrep -f /usr/bin/vlc)" ]; then
 		LOGERR "VLC could not be stopped."
 	else
 		LOGOK "VLC stopped successfully."
 	fi
 
 	LOGEND
+	chown -R loxberry:loxberry $LOGDIR/*
         exit 0
         ;;
 

@@ -9,6 +9,12 @@
 <TMPL_ELSE>
 
 <center>
+	<b><TMPL_VAR SETTINGS.HINT_FFSERVEROBSOLETE></b>
+</center>
+
+<br><br>
+
+<center>
 <table border=0 cellpadding=5 cellspacing=0>
 	<tr>
 	<td align=center>
@@ -2545,6 +2551,36 @@ $( document ).ready(function()
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_VLCHTTPPORT></font>
 				</td>
 			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelusername"><TMPL_VAR SETTINGS.LABEL_USERNAME></label>
+				</td>
+				<td width="50%">
+					<input type="text" name="username" id="username" value="<TMPL_VAR VLC.USERNAME>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_USERNAME>"
+          data-validation-rule="special:alphanumeric">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_USERNAME></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelpassword"><TMPL_VAR SETTINGS.LABEL_PASSWORD></label>
+				</td>
+				<td width="50%">
+					<input type="text" name="password" id="password" value="<TMPL_VAR VLC.PASSWORD>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_PASSWORD>"
+          data-validation-rule="special:alphanumeric">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PASSWORD></font>
+				</td>
+			</tr>
 		</table>
 
 		<br><br>
@@ -2557,13 +2593,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM1VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM1PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+					<label id="labelcam1active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM1ACTIVE>
@@ -2589,12 +2626,34 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM1PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam1url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam1url" id="cam1url" value="<TMPL_VAR CAM1.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam1')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -2603,8 +2662,127 @@ $( document ).ready(function()
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
 				</td>
 			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam1imagewidth" id="cam1imagewidth" value="<TMPL_VAR CAM1.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam1imageheight" id="cam1imageheight" value="<TMPL_VAR CAM1.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam1imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam1extrasstream" id="cam1extrasstream" value="<TMPL_VAR CAM1.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM1TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam1videobitrate" id="cam1videobitrate" value="<TMPL_VAR CAM1.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam1videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam1videoframerate" id="cam1videoframerate" value="<TMPL_VAR CAM1.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam1videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam1videowidth" id="cam1videowidth" value="<TMPL_VAR CAM1.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam1videoheight" id="cam1videoheight" value="<TMPL_VAR CAM1.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam1videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam1extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam1extrastranscode" id="cam1extrastranscode" value="<TMPL_VAR CAM1.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam1extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
+				</td>
+			</tr>
 		</table>
 		</div>
+
 
 		<div data-role="collapsible" <TMPL_VAR CAM2COLLAPSED>>
 		<h3>2. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
@@ -2614,13 +2792,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM2VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM2PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcam2active"><TMPL_VAR SETTINGS.LABEL_CAM2ACTIVE></label>
+					<label id="labelcam2active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM2ACTIVE>
@@ -2629,7 +2808,7 @@ $( document ).ready(function()
 					&nbsp;
 				</td>
 				<td width="20%">
-					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM2ACTIVE></font>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
 				</td>
 			</tr>
 			<tr>
@@ -2646,18 +2825,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM2PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam2url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam2url" id="cam2url" value="<TMPL_VAR CAM2.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam2')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam2imagewidth" id="cam2imagewidth" value="<TMPL_VAR CAM2.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam2imageheight" id="cam2imageheight" value="<TMPL_VAR CAM2.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam2imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam2extrasstream" id="cam2extrasstream" value="<TMPL_VAR CAM2.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM2TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam2videobitrate" id="cam2videobitrate" value="<TMPL_VAR CAM2.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam2videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam2videoframerate" id="cam2videoframerate" value="<TMPL_VAR CAM2.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam2videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam2videowidth" id="cam2videowidth" value="<TMPL_VAR CAM2.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam2videoheight" id="cam2videoheight" value="<TMPL_VAR CAM2.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam2videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam2extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam2extrastranscode" id="cam2extrastranscode" value="<TMPL_VAR CAM2.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam2extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -2671,13 +2990,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM3VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM3PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcam3active"><TMPL_VAR SETTINGS.LABEL_CAM3ACTIVE></label>
+					<label id="labelcam3active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM3ACTIVE>
@@ -2686,7 +3006,7 @@ $( document ).ready(function()
 					&nbsp;
 				</td>
 				<td width="20%">
-					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM3ACTIVE></font>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
 				</td>
 			</tr>
 			<tr>
@@ -2703,18 +3023,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM3PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam3url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam3url" id="cam3url" value="<TMPL_VAR CAM3.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam3')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam3imagewidth" id="cam3imagewidth" value="<TMPL_VAR CAM3.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam3imageheight" id="cam3imageheight" value="<TMPL_VAR CAM3.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam3imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam3extrasstream" id="cam3extrasstream" value="<TMPL_VAR CAM3.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM3TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam3videobitrate" id="cam3videobitrate" value="<TMPL_VAR CAM3.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam3videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam3videoframerate" id="cam3videoframerate" value="<TMPL_VAR CAM3.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam3videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam3videowidth" id="cam3videowidth" value="<TMPL_VAR CAM3.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam3videoheight" id="cam3videoheight" value="<TMPL_VAR CAM3.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam3videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam3extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam3extrastranscode" id="cam3extrastranscode" value="<TMPL_VAR CAM3.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam3extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -2728,13 +3188,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM4VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM4PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcam4active"><TMPL_VAR SETTINGS.LABEL_CAM4ACTIVE></label>
+					<label id="labelcam4active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM4ACTIVE>
@@ -2743,7 +3204,7 @@ $( document ).ready(function()
 					&nbsp;
 				</td>
 				<td width="20%">
-					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM4ACTIVE></font>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
 				</td>
 			</tr>
 			<tr>
@@ -2760,18 +3221,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM4PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam4url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam4url" id="cam4url" value="<TMPL_VAR CAM4.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam4')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam4imagewidth" id="cam4imagewidth" value="<TMPL_VAR CAM4.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam4imageheight" id="cam4imageheight" value="<TMPL_VAR CAM4.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam4imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam4extrasstream" id="cam4extrasstream" value="<TMPL_VAR CAM4.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM4TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam4videobitrate" id="cam4videobitrate" value="<TMPL_VAR CAM4.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam4videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam4videoframerate" id="cam4videoframerate" value="<TMPL_VAR CAM4.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam4videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam4videowidth" id="cam4videowidth" value="<TMPL_VAR CAM4.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam4videoheight" id="cam4videoheight" value="<TMPL_VAR CAM4.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam4videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam4extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam4extrastranscode" id="cam4extrastranscode" value="<TMPL_VAR CAM4.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam4extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -2785,13 +3386,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM5VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM5PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcam5active"><TMPL_VAR SETTINGS.LABEL_CAM5ACTIVE></label>
+					<label id="labelcam5active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM5ACTIVE>
@@ -2800,7 +3402,7 @@ $( document ).ready(function()
 					&nbsp;
 				</td>
 				<td width="20%">
-					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAM5ACTIVE></font>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMACTIVE></font>
 				</td>
 			</tr>
 			<tr>
@@ -2817,18 +3419,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM5PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam5url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam5url" id="cam5url" value="<TMPL_VAR CAM5.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam5')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam5imagewidth" id="cam5imagewidth" value="<TMPL_VAR CAM5.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam5imageheight" id="cam5imageheight" value="<TMPL_VAR CAM5.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam5imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam5extrasstream" id="cam5extrasstream" value="<TMPL_VAR CAM5.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM5TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam5videobitrate" id="cam5videobitrate" value="<TMPL_VAR CAM5.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam5videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam5videoframerate" id="cam5videoframerate" value="<TMPL_VAR CAM5.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam5videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam5videowidth" id="cam5videowidth" value="<TMPL_VAR CAM5.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam5videoheight" id="cam5videoheight" value="<TMPL_VAR CAM5.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam5videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam5extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam5extrastranscode" id="cam5extrastranscode" value="<TMPL_VAR CAM5.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam5extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -2842,13 +3584,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM6VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM6PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+					<label id="labelcam6active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM6ACTIVE>
@@ -2874,18 +3617,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM6PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam6url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam6url" id="cam6url" value="<TMPL_VAR CAM6.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam6')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam6imagewidth" id="cam6imagewidth" value="<TMPL_VAR CAM6.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam6imageheight" id="cam6imageheight" value="<TMPL_VAR CAM6.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam6imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam6extrasstream" id="cam6extrasstream" value="<TMPL_VAR CAM6.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM6TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam6videobitrate" id="cam6videobitrate" value="<TMPL_VAR CAM6.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam6videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam6videoframerate" id="cam6videoframerate" value="<TMPL_VAR CAM6.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam6videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam6videowidth" id="cam6videowidth" value="<TMPL_VAR CAM6.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam6videoheight" id="cam6videoheight" value="<TMPL_VAR CAM6.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam6videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam6extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam6extrastranscode" id="cam6extrastranscode" value="<TMPL_VAR CAM6.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam6extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -2899,13 +3782,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM7VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM7PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+					<label id="labelcam7active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM7ACTIVE>
@@ -2931,18 +3815,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM7PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam7url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam7url" id="cam7url" value="<TMPL_VAR CAM7.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam7')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam7imagewidth" id="cam7imagewidth" value="<TMPL_VAR CAM7.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam7imageheight" id="cam7imageheight" value="<TMPL_VAR CAM7.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam7imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam7extrasstream" id="cam7extrasstream" value="<TMPL_VAR CAM7.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM7TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam7videobitrate" id="cam7videobitrate" value="<TMPL_VAR CAM7.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam7videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam7videoframerate" id="cam7videoframerate" value="<TMPL_VAR CAM7.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam7videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam7videowidth" id="cam7videowidth" value="<TMPL_VAR CAM7.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam7videoheight" id="cam7videoheight" value="<TMPL_VAR CAM7.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam7videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam7extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam7extrastranscode" id="cam7extrastranscode" value="<TMPL_VAR CAM7.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam7extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -2956,13 +3980,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM8VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM8PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+					<label id="labelcam8active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM8ACTIVE>
@@ -2988,18 +4013,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM8PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam8url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam8url" id="cam8url" value="<TMPL_VAR CAM8.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam8')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam8imagewidth" id="cam8imagewidth" value="<TMPL_VAR CAM8.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam8imageheight" id="cam8imageheight" value="<TMPL_VAR CAM8.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam8imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam8extrasstream" id="cam8extrasstream" value="<TMPL_VAR CAM8.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM8TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam8videobitrate" id="cam8videobitrate" value="<TMPL_VAR CAM8.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam8videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam8videoframerate" id="cam8videoframerate" value="<TMPL_VAR CAM8.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam8videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam8videowidth" id="cam8videowidth" value="<TMPL_VAR CAM8.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam8videoheight" id="cam8videoheight" value="<TMPL_VAR CAM8.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam8videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam8extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam8extrastranscode" id="cam8extrastranscode" value="<TMPL_VAR CAM8.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam8extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -3013,13 +4178,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM9VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM9PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+					<label id="labelcam9active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM9ACTIVE>
@@ -3045,12 +4211,34 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM9PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam9url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam9url" id="cam9url" value="<TMPL_VAR CAM9.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam9')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
@@ -3059,8 +4247,127 @@ $( document ).ready(function()
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
 				</td>
 			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam9imagewidth" id="cam9imagewidth" value="<TMPL_VAR CAM9.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam9imageheight" id="cam9imageheight" value="<TMPL_VAR CAM9.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam9imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam9extrasstream" id="cam9extrasstream" value="<TMPL_VAR CAM9.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM9TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam9videobitrate" id="cam9videobitrate" value="<TMPL_VAR CAM9.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam9videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam9videoframerate" id="cam9videoframerate" value="<TMPL_VAR CAM9.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam9videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam9videowidth" id="cam9videowidth" value="<TMPL_VAR CAM9.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam9videoheight" id="cam9videoheight" value="<TMPL_VAR CAM9.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam9videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam9extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam9extrastranscode" id="cam9extrastranscode" value="<TMPL_VAR CAM9.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam9extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
+				</td>
+			</tr>
 		</table>
 		</div>
+
 
 		<div data-role="collapsible" <TMPL_VAR CAM10COLLAPSED>>
 		<h3>10. <TMPL_VAR SETTINGS.LABEL_CAM></h3>
@@ -3070,13 +4377,14 @@ $( document ).ready(function()
 					<table border=0>
 						<tr>
 							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM10VIDEOURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_VIDEOSTREAM></a></td>
+							<td><a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="<TMPL_VAR CAM10PICTUREURL>" target="_blank"><TMPL_VAR SETTINGS.BUTTON_PICTURESTREAM></a></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 			<tr>
 				<td width="25%">
-					<label id="labelcamactive"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
+					<label id="labelcam10active"><TMPL_VAR SETTINGS.LABEL_CAMACTIVE></label>
 				</td>
 				<td width="50%">
 					<TMPL_VAR CAM10ACTIVE>
@@ -3102,18 +4410,158 @@ $( document ).ready(function()
 				</td>
 			</tr>
 			<tr>
+				<td>
+					<TMPL_VAR SETTINGS.LABEL_PICTURESTREAM>
+				</td>
+				<td style="font-family: monospace">
+					<b><TMPL_VAR CAM10PICTUREURL></b>
+				</td>
+				<td>
+				</td>
+				<td>
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_PICTURESTREAM></font>
+				</td>
+			</tr>
+			<tr>
 				<td width="25%">
-					<label id="labelurl"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
+					<label id="labelcam10url"><TMPL_VAR SETTINGS.LABEL_VLCURL></label>
 				</td>
 				<td width="50%">
+					<table border=0>
+					<tr>
+					<td width="100%">
 					<input name="cam10url" id="cam10url" value="<TMPL_VAR CAM10.VLCURL>" data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_URL>" 
 					data-validation-rule="((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)">
+					</td>
+					<td>
+					<a id="button" onclick="ffprobe('cam10')" data-icon="info" data-role="button" data-inline="true" data-mini="true" href="#"><TMPL_VAR SETTINGS.BUTTON_TESTSTREAM></a>
+					</td>
+					</tr>
+					</table>
 				</td>
 				<td width="5%" valign="middle">
 					&nbsp;
 				</td>
 				<td width="20%">
 					<font size="-1"><TMPL_VAR SETTINGS.HINT_URL></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10imagesize"><TMPL_VAR SETTINGS.LABEL_IMAGESIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam10imagewidth" id="cam10imagewidth" value="<TMPL_VAR CAM10.IMAGEWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam10imageheight" id="cam10imageheight" value="<TMPL_VAR CAM10.IMAGEHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_IMAGESIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam10imagesize"><font size="-1"><TMPL_VAR SETTINGS.HINT_IMAGESIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10extrasstream"><TMPL_VAR SETTINGS.LABEL_EXTRASSTREAM></label>
+				</td>
+				<td width="50%">
+								<input name="cam10extrasstream" id="cam10extrasstream" value="<TMPL_VAR CAM10.EXTRAS_STREAM>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASSTREAM></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10transcode"><TMPL_VAR SETTINGS.LABEL_CAMTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<TMPL_VAR CAM10TRANSCODE>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<font size="-1"><TMPL_VAR SETTINGS.HINT_CAMTRANSCODE></font>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10videobitrate"><TMPL_VAR SETTINGS.LABEL_VIDEOBITRATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam10videobitrate" id="cam10videobitrate" value="<TMPL_VAR CAM10.VIDEOBITRATE>" min="0" max="2000" step="100">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam10videobitrate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOBITRATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10videoframerate"><TMPL_VAR SETTINGS.LABEL_VIDEOFRAMERATE></label>
+				</td>
+				<td width="50%">
+					<input type="range" name="cam10videoframerate" id="cam10videoframerate" value="<TMPL_VAR CAM10.VIDEOFRAMERATE>" min="0" max="50" step="1">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam10videoframerate"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOFRAMERATE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10videosize"><TMPL_VAR SETTINGS.LABEL_VIDEOSIZE></label>
+				</td>
+				<td width="50%">
+					<table border=0>
+					<tr>
+						<td><input type="text" name="cam10videowidth" id="cam10videowidth" value="<TMPL_VAR CAM10.VIDEOWIDTH>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+						<td>&nbsp;x&nbsp;</td>
+						<td><input type="text" name="cam10videoheight" id="cam10videoheight" value="<TMPL_VAR CAM10.VIDEOHEIGHT>"
+							data-validation-error-msg="<TMPL_VAR SETTINGS.ERR_VIDEOSIZE>"
+							data-validation-rule="special:numeric"></td>
+					</tr>
+					</table>
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam10videosize"><font size="-1"><TMPL_VAR SETTINGS.HINT_VIDEOSIZE></font></span>
+				</td>
+			</tr>
+			<tr>
+				<td width="25%">
+					<label id="labelcam10extrastranscode"><TMPL_VAR SETTINGS.LABEL_EXTRASTRANSCODE></label>
+				</td>
+				<td width="50%">
+					<input name="cam10extrastranscode" id="cam10extrastranscode" value="<TMPL_VAR CAM10.EXTRAS_TRANSCODE>">
+				</td>
+				<td width="5%" valign="middle">
+					&nbsp;
+				</td>
+				<td width="20%">
+					<span id="hintcam10extrastranscode"><font size="-1"><TMPL_VAR SETTINGS.HINT_EXTRASTRANSCODE></font></span>
 				</td>
 			</tr>
 		</table>
@@ -3137,58 +4585,152 @@ $( document ).ready(function()
 $('select[name=cronvlc]').attr('data-role','flipswitch');
 $('select[name=startffserver]').attr('data-role','flipswitch');
 $('select[name=cam1active]').attr('data-role','flipswitch');
+$('select[name=cam1transcode]').attr('data-role','flipswitch');
 $('select[name=cam1picactive]').attr('data-role','flipswitch');
 $('select[name=cam2active]').attr('data-role','flipswitch');
+$('select[name=cam2transcode]').attr('data-role','flipswitch');
 $('select[name=cam2picactive]').attr('data-role','flipswitch');
 $('select[name=cam3active]').attr('data-role','flipswitch');
+$('select[name=cam3transcode]').attr('data-role','flipswitch');
 $('select[name=cam3picactive]').attr('data-role','flipswitch');
 $('select[name=cam4active]').attr('data-role','flipswitch');
+$('select[name=cam4transcode]').attr('data-role','flipswitch');
 $('select[name=cam4picactive]').attr('data-role','flipswitch');
 $('select[name=cam5active]').attr('data-role','flipswitch');
+$('select[name=cam5transcode]').attr('data-role','flipswitch');
 $('select[name=cam5picactive]').attr('data-role','flipswitch');
 $('select[name=cam6active]').attr('data-role','flipswitch');
+$('select[name=cam6transcode]').attr('data-role','flipswitch');
 $('select[name=cam6picactive]').attr('data-role','flipswitch');
 $('select[name=cam7active]').attr('data-role','flipswitch');
+$('select[name=cam7transcode]').attr('data-role','flipswitch');
 $('select[name=cam7picactive]').attr('data-role','flipswitch');
 $('select[name=cam8active]').attr('data-role','flipswitch');
+$('select[name=cam8transcode]').attr('data-role','flipswitch');
 $('select[name=cam8picactive]').attr('data-role','flipswitch');
 $('select[name=cam9active]').attr('data-role','flipswitch');
+$('select[name=cam9transcode]').attr('data-role','flipswitch');
 $('select[name=cam9picactive]').attr('data-role','flipswitch');
 $('select[name=cam10active]').attr('data-role','flipswitch');
+$('select[name=cam10transcode]').attr('data-role','flipswitch');
 $('select[name=cam10picactive]').attr('data-role','flipswitch');
+
+// Disable some form elements depending on selected options
+function disable() {
+	var click = $('#cam1transcode').val();
+	if ( click === "0" ) {
+		$("#labelcam1videobitrate").addClass('ui-disabled');
+		$("#hintcam1videobitrate").addClass('ui-disabled');
+		$("#cam1videobitrate").addClass('ui-disabled');
+		$("#labelcam1videoframerate").addClass('ui-disabled');
+		$("#hintcam1videoframerate").addClass('ui-disabled');
+		$("#cam1videoframerate").addClass('ui-disabled');
+		$("#labelcam1videosize").addClass('ui-disabled');
+		$("#hintcam1videosize").addClass('ui-disabled');
+		$("#cam1videowidth").addClass('ui-disabled');
+		$("#cam1videoheight").addClass('ui-disabled');
+		$("#labelcam1extrastranscode").addClass('ui-disabled');
+		$("#hintcam1extrastranscode").addClass('ui-disabled');
+		$("#cam1extrastranscode").addClass('ui-disabled');
+	} else {
+		$("#labelcam1videobitrate").removeClass('ui-disabled');
+		$("#hintcam1videobitrate").removeClass('ui-disabled');
+		$("#cam1videobitrate").removeClass('ui-disabled');
+		$("#labelcam1videoframerate").removeClass('ui-disabled');
+		$("#hintcam1videoframerate").removeClass('ui-disabled');
+		$("#cam1videoframerate").removeClass('ui-disabled');
+		$("#labelcam1videosize").removeClass('ui-disabled');
+		$("#hintcam1videosize").removeClass('ui-disabled');
+		$("#cam1videowidth").removeClass('ui-disabled');
+		$("#cam1videoheight").removeClass('ui-disabled');
+		$("#labelcam1extrastranscode").removeClass('ui-disabled');
+		$("#hintcam1extrastranscode").removeClass('ui-disabled');
+		$("#cam1extrastranscode").removeClass('ui-disabled');
+	}
+}
+
+function ffprobe(cam) {
+	var streamurl = $('#' + cam + 'url').val();
+	var win = window.open('./streamprobe.cgi?url=' + streamurl, '_blank');
+	win.focus();
+}
 
 // Form validation
 $( document ).ready(function()
 {
+	disable();
+	validate_enable('#httpport');
+	validate_enable('#username');
+	validate_enable('#password');
 	validate_enable('#cam1url');
 	validate_enable('#cam1videosize');
+	validate_enable('#cam1videowidth');
+	validate_enable('#cam1videoheight');
+	validate_enable('#cam1imagewidth');
+	validate_enable('#cam1imageheight');
 	validate_enable('#cam1imagesize');
 	validate_enable('#cam2url');
 	validate_enable('#cam2videosize');
+	validate_enable('#cam2videowidth');
+	validate_enable('#cam2videoheight');
+	validate_enable('#cam2imagewidth');
+	validate_enable('#cam2imageheight');
 	validate_enable('#cam2imagesize');
 	validate_enable('#cam3url');
 	validate_enable('#cam3videosize');
+	validate_enable('#cam3videowidth');
+	validate_enable('#cam3videoheight');
+	validate_enable('#cam3imagewidth');
+	validate_enable('#cam3imageheight');
 	validate_enable('#cam3imagesize');
 	validate_enable('#cam4url');
 	validate_enable('#cam4videosize');
+	validate_enable('#cam4videowidth');
+	validate_enable('#cam4videoheight');
+	validate_enable('#cam4imagewidth');
+	validate_enable('#cam4imageheight');
 	validate_enable('#cam4imagesize');
 	validate_enable('#cam5url');
 	validate_enable('#cam5videosize');
+	validate_enable('#cam5videowidth');
+	validate_enable('#cam5videoheight');
+	validate_enable('#cam5imagewidth');
+	validate_enable('#cam5imageheight');
 	validate_enable('#cam5imagesize');
 	validate_enable('#cam6url');
 	validate_enable('#cam6videosize');
+	validate_enable('#cam6videowidth');
+	validate_enable('#cam6videoheight');
+	validate_enable('#cam6imagewidth');
+	validate_enable('#cam6imageheight');
 	validate_enable('#cam6imagesize');
 	validate_enable('#cam7url');
 	validate_enable('#cam7videosize');
+	validate_enable('#cam7videowidth');
+	validate_enable('#cam7videoheight');
+	validate_enable('#cam7imagewidth');
+	validate_enable('#cam7imageheight');
 	validate_enable('#cam7imagesize');
 	validate_enable('#cam8url');
 	validate_enable('#cam8videosize');
+	validate_enable('#cam8videowidth');
+	validate_enable('#cam8videoheight');
+	validate_enable('#cam8imagewidth');
+	validate_enable('#cam8imageheight');
 	validate_enable('#cam8imagesize');
 	validate_enable('#cam9url');
 	validate_enable('#cam9videosize');
+	validate_enable('#cam9videowidth');
+	validate_enable('#cam9videoheight');
+	validate_enable('#cam9imagewidth');
+	validate_enable('#cam9imageheight');
 	validate_enable('#cam9imagesize');
 	validate_enable('#cam10url');
 	validate_enable('#cam10videosize');
+	validate_enable('#cam10videowidth');
+	validate_enable('#cam10videoheight');
+	validate_enable('#cam10imagewidth');
+	validate_enable('#cam10imageheight');
 	validate_enable('#cam10imagesize');
 });
 </script>

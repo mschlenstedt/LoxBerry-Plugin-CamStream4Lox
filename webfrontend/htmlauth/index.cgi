@@ -148,7 +148,7 @@ if ( $cgi->param('do') && ( $cgi->param('form') eq "2" || !$cgi->param('form') )
 	if ( $do eq "start") {
 		system ("$lbpbindir/vlc.sh start > /dev/null 2>&1");
 		for (my $i;$i<=10;$i++) {
-			qx{pidof vlc};
+			qx{pgrep -f /usr/bin/vlc};
 			if ($? eq "0") {
 				last;
 			} else {
@@ -161,7 +161,7 @@ if ( $cgi->param('do') && ( $cgi->param('form') eq "2" || !$cgi->param('form') )
 		system ("touch $lbplogdir/vlcmanualstopped");
 		system ("$lbpbindir/vlc.sh stop > /dev/null 2>&1");
 		for (my $i;$i<=10;$i++) {
-			qx{pidof vlc};
+			qx{pgrep -f /usr/bin/vlc};
 			if ($? ne "0") {
 				last;
 			} else {
@@ -173,7 +173,7 @@ if ( $cgi->param('do') && ( $cgi->param('form') eq "2" || !$cgi->param('form') )
 		system ("touch $lbplogdir/manualstoppedvlc");
 		system ("$lbpbindir/vlc.sh stop > /dev/null 2>&1");
 		for (my $i;$i<=10;$i++) {
-			qx{pidof vlc};
+			qx{pgrep -f /usr/bin/vlc};
 			if ($? ne "0") {
 				last;
 			} else {
@@ -182,7 +182,7 @@ if ( $cgi->param('do') && ( $cgi->param('form') eq "2" || !$cgi->param('form') )
 		}
 		system ("$lbpbindir/vlc.sh start > /dev/null 2>&1");
 		for (my $i;$i<=10;$i++) {
-			qx{pidof vlc};
+			qx{pgrep -f /usr/bin/vlc};
 			if ($? eq "0") {
 				last;
 			} else {
@@ -322,6 +322,37 @@ if ($R::saveformdata2) {
 	} else {
 		$cfg->param("VLC.HTTPPORT", "4000");
 	}
+	if ( $R::username ) {
+		$cfg->param("VLC.USERNAME", "$R::username");
+	} else {
+		$cfg->param("VLC.USERNAME", "");
+	}
+	if ( $R::password ) {
+		$cfg->param("VLC.PASSWORD", "$R::password");
+	} else {
+		$cfg->param("VLC.PASSWORD", "");
+	}
+	if ( $cfg->param("VLC.USERNAME") && $cfg->param("VLC.PASSWORD") ) {
+		my $username = $cfg->param("VLC.USERNAME");
+		my $password = $cfg->param("VLC.PASSWORD");
+		system ("rm -f $lbpconfigdir/htusers.dat > /dev/null 2>&1");
+		system ("htpasswd -c -b $lbpconfigdir/htusers.dat $username $password > /dev/null 2>&1");
+		open(F1,">$lbphtmldir/.htaccess");
+		print F1 <<EOF;
+AuthType Basic
+AuthName "LoxBerry CamStream4Lox"
+AuthUserFile $lbpconfigdir/htusers.dat
+Require valid-user
+Order allow,deny
+Allow from localhost
+Allow from 127.0.0.1
+Satisfy Any
+EOF
+		close (F1);
+	} else {
+		system ("rm -f $lbpconfigdir/htusers.dat > /dev/null 2>&1");
+		system ("rm -f $lbphtmldir/.htaccess > /dev/null 2>&1");
+	}
 	for (my $i=1;$i<=10;$i++) {
 		if ( ${"R::cam$i" . "active"} ) {
 			$cfg->param("CAM$i.VLCACTIVE", "1");
@@ -332,6 +363,41 @@ if ($R::saveformdata2) {
 			$cfg->param("CAM$i.VLCURL", ${"R::cam$i" . "url"});
 		} else {
 			$cfg->param("CAM$i.VLCURL", "");
+		}
+		if ( ${"R::cam$i" . "transcode"} ) {
+			$cfg->param("CAM$i.VLCTRANSCODE", "1");
+		} else {
+			$cfg->param("CAM$i.VLCTRANSCODE", "0");
+		}
+		if ( ${"R::cam$i" . "videobitrate"} ) {
+			$cfg->param("CAM$i.VIDEOBITRATE", ${"R::cam$i" . "videobitrate"});
+		} else {
+			$cfg->param("CAM$i.VIDEOBITRATE", "1000");
+		}
+		if ( ${"R::cam$i" . "videoframerate"} ) {
+			$cfg->param("CAM$i.VIDEOFRAMERATE", ${"R::cam$i" . "videoframerate"});
+		} else {
+			$cfg->param("CAM$i.VIDEOFRAMERATE", "10");
+		}
+		if ( ${"R::cam$i" . "videowidth"} ) {
+			$cfg->param("CAM$i.VIDEOWIDTH", ${"R::cam$i" . "videowidth"});
+		} else {
+			$cfg->param("CAM$i.VIDEOWIDTH", "640");
+		}
+		if ( ${"R::cam$i" . "videoheight"} ) {
+			$cfg->param("CAM$i.VIDEOHEIGHT", ${"R::cam$i" . "videoheight"});
+		} else {
+			$cfg->param("CAM$i.VIDEOHEIGHT", "");
+		}
+		if ( ${"R::cam$i" . "imagewidth"} ) {
+			$cfg->param("CAM$i.IMAGEWIDTH", ${"R::cam$i" . "imagewidth"});
+		} else {
+			$cfg->param("CAM$i.IMAGEWIDTH", "640");
+		}
+		if ( ${"R::cam$i" . "imageheight"} ) {
+			$cfg->param("CAM$i.IMAGEHEIGHT", ${"R::cam$i" . "imageheight"});
+		} else {
+			$cfg->param("CAM$i.IMAGEHEIGHT", "");
 		}
 	}
 	
@@ -533,6 +599,12 @@ if ($R::form eq "2" || !$R::form) {
 	);
 	$maintemplate->param( CRONVLC => $form );
 
+	# Stream Auth?
+	my $httpauth;
+	if ( $cfg->param("VLC.USERNAME") && $cfg->param("VLC.PASSWORD") ) {
+		$httpauth=$cfg->param("VLC.USERNAME") . ":" . $cfg->param("VLC.PASSWORD") . "@";
+	}
+
 	# Cams active, URLs
 	for (my $i=1;$i<=10;$i++) {
 		@values = ('0', '1' );
@@ -551,9 +623,25 @@ if ($R::form eq "2" || !$R::form) {
 				$maintemplate->param( "CAM$i" . "COLLAPSED" => "data-collapsed='false'" );
 		}
 		$maintemplate->param( "CAM$i" . "ACTIVE" => $form );
+		@values = ('0', '1' );
+		%labels = (
+			'0' => $L{'SETTINGS.LABEL_OFF'},
+			'1' => $L{'SETTINGS.LABEL_ON'},
+		);
+		$form = $cgi->popup_menu(
+			-name => "cam" . $i . "transcode",
+			-id => "cam" . $i . "transcode",
+			-values	=> \@values,
+			-labels	=> \%labels,
+			-onChange => "disable()",
+			-default => $cfg->param( "CAM$i" . ".VLCTRANSCODE"),
+		);
+		$maintemplate->param( "CAM$i" . "TRANSCODE" => $form );
 		my $httpport = $cfg->param("VLC.HTTPPORT")+$i-1;
-		my $videourl = "http://" . $ENV{SERVER_ADDR} . ":$httpport/cam" . $i . ".mjpg";
+		my $videourl = "http://" . $httpauth . $ENV{SERVER_ADDR} . ":$httpport/cam" . $i . ".mjpg";
+		my $pictureurl = "http://" . $httpauth . $ENV{SERVER_ADDR} . "/plugins/$lbpplugindir/snapshot.cgi?cam=" . $i;
 		$maintemplate->param( "CAM$i" . "VIDEOURL" => $videourl );
+		$maintemplate->param( "CAM$i" . "PICTUREURL" => $pictureurl );
 	}
 
 }

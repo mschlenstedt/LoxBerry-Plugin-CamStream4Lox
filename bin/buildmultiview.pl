@@ -33,7 +33,7 @@ use LoxBerry::Log;
 ##########################################################################
 
 # Version of this script
-my $version = "0.0.1";
+my $version = "0.0.2";
 
 my $pcfg = new Config::Simple("$lbpconfigdir/camstream4lox.cfg");
 
