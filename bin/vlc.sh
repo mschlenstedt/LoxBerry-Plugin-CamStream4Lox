@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PLUGINNAME=camstream4lox
+PLUGINNAME=REPLACELBPPLUGINDIR
 PATH="/sbin:/bin:/usr/sbin:/usr/bin:$LBHOMEDIR/bin:$LBHOMEDIR/sbin"
 
 ENVIRONMENT=$(cat /etc/environment)
@@ -14,6 +14,11 @@ LOGDIR=$LBPLOG/${PLUGINNAME}
 STDERR=1
 
 LOGSTART
+
+# Debug output for VLC
+if [ ${LOGLEVEL} -eq "7" ]; then
+	DEBUG="vvv"
+fi
 
 # Check if we should start FFServer at boottime
 # Source the iniparser
@@ -92,11 +97,11 @@ case "$1" in
 			fi
 			if [ $UID -eq 0 ]; then
 				chown -R loxberry:loxberry $LOGDIR/*
-				LOGINF "CMD: su loxberry -c \"cvlc -I dummy -v -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTHLOG}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &\""
-				su loxberry -c "cvlc -I dummy -v -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTH}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
+				LOGINF "CMD: su loxberry -c \"cvlc -I dummy -v${DEBUG} -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTHLOG}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &\""
+				su loxberry -c "cvlc -I dummy -v${DEBUG} -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTH}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
 			else
-				LOGINF "cvlc -I dummy -v -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTHLOG}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
-				cvlc -I dummy -v -R ${!CAMURL} --sout="#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTH}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}" --sout-keep >> ${FILENAME} 2>&1 &
+				LOGINF "cvlc -I dummy -v${DEBUG} -R ${!CAMURL} --sout='#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTHLOG}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}' --sout-keep >> ${FILENAME} 2>&1 &"
+				cvlc -I dummy -v${DEBUG} -R ${!CAMURL} --sout="#${TRANSCODEOPTIONS}std{access=http{${MJPEGAUTH}mime=multipart/x-mixed-replace;boundary=--7b3cc56e5f51db803f790dad720ed50a},mux=mpjpeg,dst=:${HTTPPORT}/cam${COUNTER}.mjpg}" --sout-keep >> ${FILENAME} 2>&1 &
 			fi
 		fi
          	let COUNTER=COUNTER+1 
