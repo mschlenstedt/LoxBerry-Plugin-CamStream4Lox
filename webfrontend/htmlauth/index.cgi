@@ -404,7 +404,7 @@ EOF
 	# Save all
 	$cfg->save();
 
-	system ("$lbpbindir/buildconfig.pl > /dev/null 2>&1");
+	system ("$lbpbindir/buildmultiview.pl > /dev/null 2>&1");
 	
 	# Template output
 	$maintemplate->param( "FORM", 2);
