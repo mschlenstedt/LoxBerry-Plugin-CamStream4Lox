@@ -24,6 +24,7 @@ use LoxBerry::System;
 use LoxBerry::Storage;
 use LoxBerry::Web;
 use CGI;
+use Data::Dumper;
 #use warnings;
 #use strict;
 
@@ -403,6 +404,9 @@ EOF
 	
 	# Save all
 	$cfg->save();
+
+	# Escape all & for Bash (doen't work in Perk...)
+	system ("sed -i 's/&/\\\\&/g' $lbpconfigdir/camstream4lox.cfg > /dev/null 2>&1");
 
 	system ("$lbpbindir/buildmultiview.pl > /dev/null 2>&1");
 	
