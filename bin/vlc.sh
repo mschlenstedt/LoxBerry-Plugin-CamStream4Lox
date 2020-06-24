@@ -75,7 +75,7 @@ case "$1" in
 			fi
 
 
-			if [ ${!TRANSCODE} -eq "1" ]; then
+			if [[ ${!TRANSCODE} -eq "1" ]]; then
 				LOGINF "Stream will be transcoded."
 				VB="CAM$COUNTER""VIDEOBITRATE"
 				FPS="CAM$COUNTER""VIDEOFRAMERATE"
