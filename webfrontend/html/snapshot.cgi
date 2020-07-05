@@ -58,7 +58,7 @@ if ( $cam && $cfg->param("CAM$cam.VLCACTIVE") ) {
 	my $height = $cfg->param("CAM$cam.IMAGEHEIGHT");
 	if ($R::height) {$height = $R::height;};
 	if (!$height) {$height="-1";};
-	system ("yes | ffmpeg -loglevel fatal -i $camurl -f image2 -vframes 1 -pix_fmt yuvj420p -vframes 1 -r 1 -vf scale=$width:$height /tmp/camstream4lox_snapshot$cam.jpg > /dev/null 2>&1");
+	system ("yes | ffmpeg -loglevel fatal -i \"$camurl\" -f image2 -vframes 1 -pix_fmt yuvj420p -vframes 1 -r 1 -vf scale=$width:$height /tmp/camstream4lox_snapshot$cam.jpg > /dev/null 2>&1");
 	if ( -e "/tmp/camstream4lox_snapshot$cam.jpg") {
 		open IMAGE, "/tmp/camstream4lox_snapshot$cam.jpg";
 		my ($image, $buff);
